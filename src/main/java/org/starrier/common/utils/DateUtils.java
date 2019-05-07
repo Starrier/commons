@@ -1,24 +1,30 @@
 package org.starrier.common.utils;
 
+import com.google.common.collect.Lists;
+import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
+import org.springframework.core.convert.converter.Converter;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import static org.starrier.common.constant.DataConstant.DATE_FORMAT_DEFAULT;
 
 /**
  * @author Starrier
  * @date 2019/4/18
  */
-public class DateUtils {
+public class DateUtils implements Converter<String, Date> {
 
-    public final static String DATE_FORMAT_DEFAULT = "yyyy-MM-dd";
-    public final static String DATE_FORMAT_TIME = "yyyy-MM-dd HH:mm";
-    public final static String DATE_FORMAT_ALL = "yyyy-MM-dd HH:mm:ss";
-    public final static String DATE_CHINA_DEFAULT = "yyyy年MM月dd日";
+
+    private static final List<String> formarts = Lists.newArrayListWithExpectedSize(4);
 
     /**
-     *
      * @param date
      * @param num
      * @return
@@ -28,7 +34,6 @@ public class DateUtils {
     }
 
     /**
-     *
      * @param date
      * @param num
      * @param format
@@ -51,7 +56,8 @@ public class DateUtils {
     }
 
     /**
-     *  获取指定日期前后num天的日期
+     * 获取指定日期前后num天的日期
+     *
      * @param date
      * @param num
      * @param format
@@ -236,5 +242,49 @@ public class DateUtils {
             }
 
         }
+    }
+
+
+    static {
+        formarts.add("yyyy-MM");
+        formarts.add("yyyy-MM-dd");
+        formarts.add("yyyy-MM-dd hh:mm");
+        formarts.add("yyyy-MM-dd hh:mm:ss");
+    }
+
+    @Override
+    public Date convert(String source) {
+
+        String value = source.trim();
+
+        if (StringUtils.EMPTY.equals(value)) {
+            return null;
+        }
+        if (source.matches("^\\d{4}-\\d{1,2}$")) {
+            return parseDate(source, formarts.get(0));
+        } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2}$")) {
+            return parseDate(source, formarts.get(1));
+        } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}$")) {
+            return parseDate(source, formarts.get(2));
+        } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}:\\d{1,2}$")) {
+            return parseDate(source, formarts.get(3));
+        } else {
+            throw new IllegalArgumentException("Invalid boolean value '" + source + "'");
+        }
+    }
+
+
+    /**
+     * 格式化日期
+     *
+     * @param dateStr String 字符型日期
+     * @param format  String 格式
+     * @return Date 日期
+     */
+    @SneakyThrows(Exception.class)
+    public Date parseDate(String dateStr, String format) {
+        Date date = null;
+        DateFormat dateFormat = new SimpleDateFormat(format);
+        return dateFormat.parse(dateStr);
     }
 }

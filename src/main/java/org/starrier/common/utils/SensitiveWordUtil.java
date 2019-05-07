@@ -12,8 +12,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.IntStream;
 
+import static org.starrier.common.constant.Constant.IS_END;
 import static org.starrier.common.constant.Constant.MaxMatchType;
 import static org.starrier.common.constant.Constant.MinMatchTYpe;
+import static org.starrier.common.constant.Constant.ONE;
+import static org.starrier.common.constant.Constant.ZERO;
 
 /**
  * @author Starrier
@@ -60,10 +63,9 @@ public class SensitiveWordUtil {
         Map nowMap;
         Map<String, String> newWorMap;
         //迭代sensitiveWordSet
-        Iterator<String> iterator = sensitiveWordSet.iterator();
-        while (iterator.hasNext()) {
+        for (String s : sensitiveWordSet) {
             //关键字
-            key = iterator.next();
+            key = s;
             nowMap = sensitiveWordMap;
             for (int i = 0; i < key.length(); i++) {
                 //转换成char型
@@ -77,13 +79,13 @@ public class SensitiveWordUtil {
                     //不存在则，则构建一个map，同时将isEnd设置为0，因为他不是最后一个
                     newWorMap = Maps.newHashMapWithExpectedSize(sensitiveWordSet.size());
                     //不是最后一个
-                    newWorMap.put("isEnd", "0");
+                    newWorMap.put(IS_END, ZERO);
                     nowMap.put(keyChar, newWorMap);
                     nowMap = newWorMap;
                 }
                 if (i == key.length() - 1) {
                     //最后一个
-                    nowMap.put("isEnd", "1");
+                    nowMap.put(IS_END, ONE);
                 }
             }
         }
@@ -156,7 +158,7 @@ public class SensitiveWordUtil {
      * @param matchType   敏感词匹配规则
      * @return return
      */
-    public static String replaceSensitiveWord(String txt, char replaceChar, int matchType) {
+    private static String replaceSensitiveWord(String txt, char replaceChar, int matchType) {
         String resultTxt = txt;
         //获取所有的敏感词
         Set<String> set = getSensitiveWord(txt, matchType);
@@ -178,8 +180,7 @@ public class SensitiveWordUtil {
      * @param txt         文本
      * @param replaceChar 替换的字符，匹配的敏感词以字符逐个替换，
      *                    如 语句：我爱中国人 敏感词：中国人，替换字符：*， 替换结果：我爱***
-     * @param replaceChar 替换的字符，匹配的敏感词以字符逐个替换，如 语句：我爱中国人 敏感词：中国人，替换字符：*， 替换结果：我爱***
-     * @return
+     * @return result come from {@see  SensitiveWordUtil#replaceSensitiveWord(String, char)}
      */
     public static String replaceSensitiveWord(String txt, char replaceChar) {
         return replaceSensitiveWord(txt, replaceChar, MaxMatchType);
@@ -194,7 +195,7 @@ public class SensitiveWordUtil {
      * @param matchType  敏感词匹配规则
      * @return return
      */
-    public static String replaceSensitiveWord(String txt, String replaceStr, int matchType) {
+    private static String replaceSensitiveWord(String txt, String replaceStr, int matchType) {
         String resultTxt = txt;
         //获取所有的敏感词
         Set<String> set = getSensitiveWord(txt, matchType);

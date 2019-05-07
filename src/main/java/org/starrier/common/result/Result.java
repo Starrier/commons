@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
@@ -19,10 +20,10 @@ import java.util.Map;
  * @see Result is the enhanced and custom version of  response.
  */
 @AllArgsConstructor
-@Builder
 @Accessors(chain = true)
 @Setter
 @Getter
+@ToString
 public class Result implements Serializable {
 
     private static final long serialVersionUID = -1709587390161841001L;
@@ -33,19 +34,18 @@ public class Result implements Serializable {
 
     private String url;
 
-    public Object getData() {
-        return data;
-    }
-
-    public void setData(Object data) {
-        this.data = data;
-    }
-
     private Object data;
 
     private Result() {
     }
 
+    public Integer getCode() {
+        return code;
+    }
+
+    private void setData(Object data) {
+        this.data = data;
+    }
 
     public Result(Integer errorCode, String errMessage) {
         this.code = errorCode;
@@ -95,4 +95,46 @@ public class Result implements Serializable {
         return result;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    private Result(Builder builder) {
+        this.code = builder.code;
+        this.data = builder.data;
+        this.message = builder.message;
+        this.url = builder.url;
+    }
+
+    @ToString
+    public static class Builder {
+        private Integer code;
+        private String message;
+        private String url;
+        private Object data;
+
+        public Builder code(Integer code) {
+            this.code = code;
+            return this;
+        }
+
+        public Builder data(Object data) {
+            this.data = data;
+            return this;
+        }
+
+        public Builder message(String message) {
+            this.message = message;
+            return this;
+        }
+
+        public Builder url(String url) {
+            this.url = url;
+            return this;
+        }
+
+        public Result build() {
+            return new Result(this);
+        }
+    }
 }
