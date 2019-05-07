@@ -1,10 +1,14 @@
 package org.starrier.common.result;
 
 import com.google.common.collect.Maps;
+import com.google.gson.annotations.SerializedName;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
@@ -18,11 +22,12 @@ import java.util.Map;
  * @date 2018/11/11.
  * @see Result is the enhanced and custom version of  response.
  */
-@AllArgsConstructor
-@Builder
 @Accessors(chain = true)
 @Setter
 @Getter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Result implements Serializable {
 
     private static final long serialVersionUID = -1709587390161841001L;
@@ -33,19 +38,15 @@ public class Result implements Serializable {
 
     private String url;
 
-    public Object getData() {
-        return data;
-    }
-
-    public void setData(Object data) {
-        this.data = data;
-    }
-
     private Object data;
 
-    private Result() {
+    public Integer getCode() {
+        return code;
     }
 
+    private void setData(Object data) {
+        this.data = data;
+    }
 
     public Result(Integer errorCode, String errMessage) {
         this.code = errorCode;
@@ -82,9 +83,23 @@ public class Result implements Serializable {
         return result;
     }
 
+    public static Result success(Object data,String message){
+        Result result = new Result();
+        result.setData(data);
+        result.setMessage(message);
+        return result;
+    }
+
     public static Result error(ResultCode resultCode) {
         Result result = new Result();
         result.setResultCode(resultCode);
+        return result;
+    }
+
+    public static Result error(String errorMessage) {
+        Result result = new Result();
+        result.setResultCode(ResultCode.ERROR);
+        result.setMessage(errorMessage);
         return result;
     }
 
@@ -95,4 +110,46 @@ public class Result implements Serializable {
         return result;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    private Result(Builder builder) {
+        this.code = builder.code;
+        this.data = builder.data;
+        this.message = builder.message;
+        this.url = builder.url;
+    }
+
+    @ToString
+    public static class Builder {
+        private Integer code;
+        private String message;
+        private String url;
+        private Object data;
+
+        public Builder code(Integer code) {
+            this.code = code;
+            return this;
+        }
+
+        public Builder data(Object data) {
+            this.data = data;
+            return this;
+        }
+
+        public Builder message(String message) {
+            this.message = message;
+            return this;
+        }
+
+        public Builder url(String url) {
+            this.url = url;
+            return this;
+        }
+
+        public Result build() {
+            return new Result(this);
+        }
+    }
 }

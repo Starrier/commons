@@ -1,11 +1,10 @@
-package org.starrier.common.utils;
+package org.starrier.common.token;
 
 import com.google.common.collect.Maps;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.NonNull;
-import org.starrier.common.token.DESCoder;
 
 import java.util.Collections;
 import java.util.Date;
@@ -29,7 +28,7 @@ public class TokenUtils {
      * @param claims
      * @return
      */
-    public static String generateToken(Map<String, Object> claims) throws Exception {
+    public static String generateToken(Map<String, Object> claims) {
         return Jwts.builder()
                 .setClaims(claims)
                 .setExpiration(new Date(System.currentTimeMillis() + 30000L))
@@ -43,7 +42,7 @@ public class TokenUtils {
      * @param token 要解析的token信息
      * @return
      */
-    private static Optional<Claims> getClaimsFromToken(String token) throws Exception {
+    private static Optional<Claims> getClaimsFromToken(String token) {
         return Optional.ofNullable(Jwts.parser()
                 .setSigningKey(new DESCoder().toKey(SECRET))
                 .parseClaimsJws(token)
@@ -58,7 +57,7 @@ public class TokenUtils {
      */
     public static boolean isExpired(String token) throws Exception {
         Optional<Claims> claims = getClaimsFromToken(token);
-        return claims.filter((@NonNull var value) -> !value.getExpiration().before(new Date())).isPresent();
+        return claims.filter(value -> !value.getExpiration().before(new Date())).isPresent();
     }
 
     /**
@@ -67,12 +66,12 @@ public class TokenUtils {
      * @param token 要解析的token信息
      * @return
      */
-    private static Map<String, Object> extractInfo(String token) throws Exception {
+    private static Map<String, Object> extractInfo(String token) {
         Optional<Claims> claims = getClaimsFromToken(token);
         if (claims.isPresent()) {
             Set<String> keySet = claims.get().keySet();
             Map<String, Object> info = Maps.newHashMapWithExpectedSize(keySet.size());
-            keySet.forEach((@NonNull var key) -> info.put(key, claims.get().get(key)));
+            keySet.forEach((@NonNull String key) -> info.put(key, claims.get().get(key)));
             return info;
         }
         return Collections.emptyMap();
