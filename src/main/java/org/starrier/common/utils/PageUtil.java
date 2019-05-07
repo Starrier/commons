@@ -1,7 +1,7 @@
 package org.starrier.common.utils;
 
 import lombok.SneakyThrows;
-import org.starrier.common.pageHelper.ParameterIllegalException;
+import org.starrier.common.page.ParameterIllegalException;
 
 /**
  * @author Starrier

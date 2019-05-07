@@ -1,7 +1,6 @@
 package org.starrier.common.utils;
 
 import java.util.Random;
-import java.util.stream.IntStream;
 
 /**
  * @author Starrier
@@ -15,8 +14,7 @@ public class RandomUtils {
      * Get two random number
      *
      * @param length number length
-     *
-     * */
+     */
     public static String randomNum(int length) {
         StringBuilder builder = new StringBuilder();
         Random random = new Random();

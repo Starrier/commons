@@ -5,8 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * @author  Starrier
- * @date  2018/6/5.
+ * @author Starrier
+ * @date 2018/6/5.
  */
 @Getter
 @Setter
@@ -20,7 +20,7 @@ public class ResourceNameConstant {
 
     /**
      * Prevent instantiation.
-     *
+     * <p>
      * And if you want to expose these,you can use annotation {@link NoArgsConstructor}
      */
     private ResourceNameConstant() {

@@ -1,42 +1,124 @@
 package org.starrier.common.utils;
 
+import com.google.common.collect.Lists;
+import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
+import org.springframework.core.convert.converter.Converter;
+import org.starrier.common.annotation.logger.ExceptionZero;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
+
+import static org.starrier.common.constant.Constant.FOUR;
+import static org.starrier.common.constant.DataConstant.DATE_FORMAT_DEFAULT;
 
 /**
  * @author Starrier
  * @date 2019/4/18
  */
-public class DateUtils {
+public class DateUtils implements Converter<String, Date> {
 
-    public final static String DATE_FORMAT_DEFAULT = "yyyy-MM-dd";
-    public final static String DATE_FORMAT_TIME = "yyyy-MM-dd HH:mm";
-    public final static String DATE_FORMAT_ALL = "yyyy-MM-dd HH:mm:ss";
-    public final static String DATE_CHINA_DEFAULT = "yyyy年MM月dd日";
+    public static final String FULL_TIME_PATTERN = "yyyyMMddHHmmss";
+    public static final String FULL_TIME_SPLIT_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    public static final String CST_TIME_PATTERN = "EEE MMM dd HH:mm:ss zzz yyyy";
+    private static final List<String> FOR_MARTS = Lists.newArrayListWithExpectedSize(FOUR);
+
+    static {
+        FOR_MARTS.add("yyyy-MM");
+        FOR_MARTS.add("yyyy-MM-dd");
+        FOR_MARTS.add("yyyy-MM-dd hh:mm");
+        FOR_MARTS.add("yyyy-MM-dd hh:mm:ss");
+    }
 
     /**
+     * 格式化时间，格式为 yyyyMMddHHmmss
      *
-     * @param date
-     * @param num
-     * @return
+     * @param localDateTime LocalDateTime
+     * @return 格式化后的字符串
+     */
+    public static String formatFullTime(LocalDateTime localDateTime) {
+        return formatFullTime(localDateTime, FULL_TIME_PATTERN);
+    }
+
+    /**
+     * 根据传入的格式，格式化时间
+     *
+     * @param localDateTime LocalDateTime
+     * @param format        格式
+     * @return 格式化后的字符串
+     */
+    public static String formatFullTime(LocalDateTime localDateTime, String format) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(format);
+        return localDateTime.format(dateTimeFormatter);
+    }
+
+    /**
+     * 根据传入的格式，格式化时间
+     *
+     * @param date   Date
+     * @param format 格式
+     * @return 格式化后的字符串
+     */
+    public static String getDateFormat(Date date, String format) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format, Locale.CHINA);
+        return simpleDateFormat.format(date);
+    }
+
+    /**
+     * 格式化 CST类型的时间字符串
+     *
+     * @param date   CST类型的时间字符串
+     * @param format 格式
+     * @return 格式化后的字符串
+     * @throws ParseException 异常
+     */
+    public static String formatCSTTime(String date, String format) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(CST_TIME_PATTERN, Locale.US);
+        Date usDate = simpleDateFormat.parse(date);
+        return DateUtils.getDateFormat(usDate, format);
+    }
+
+    /**
+     * 格式化 Instant
+     *
+     * @param instant Instant
+     * @param format  格式
+     * @return 格式化后的字符串
+     */
+    public static String formatInstant(Instant instant, String format) {
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+        return localDateTime.format(DateTimeFormatter.ofPattern(format));
+    }
+
+    /**
+     * @param date {@link String}
+     * @param num  {@link Integer}
+     * @return {@link String}
      */
     public static String getDay(String date, int num) {
         return getDay(date, num, DATE_FORMAT_DEFAULT);
     }
 
     /**
-     *
      * @param date
      * @param num
      * @param format
      * @return
      */
     public static String getDay(String date, int num, String format) {
-        long t = parseStringToLong(date);
-        return getDay(t, num, DATE_FORMAT_DEFAULT);
+        return getDay(parseStringToLong(date), num, DATE_FORMAT_DEFAULT);
     }
 
     /**
@@ -51,7 +133,8 @@ public class DateUtils {
     }
 
     /**
-     *  获取指定日期前后num天的日期
+     * 获取指定日期前后num天的日期
+     *
      * @param date
      * @param num
      * @param format
@@ -85,8 +168,7 @@ public class DateUtils {
         if (StringUtils.isBlank(format)) {
             format = DATE_FORMAT_DEFAULT;
         }
-        DateTime dTime = new DateTime(time);
-        return dTime.toString(format);
+        return new DateTime().toString(format);
     }
 
     /**
@@ -148,93 +230,127 @@ public class DateUtils {
      * 获得当前时间
      *
      * @param format 日期格式
-     * @return
+     * @return {@link String}
      */
     public static String getCurrentTime(String format) {
-        DateTime dTime = new DateTime();
-        return dTime.toString(format);
+        return new DateTime().toString(format);
     }
 
     /**
      * 将字符串类型的日期转换为毫秒数
      *
-     * @param dateStr
-     * @return
+     * @param dateStr is the start of time.
+     * @return {@link Long}
      */
+    @ExceptionZero
     public static long parseStringToLong(String dateStr) {
         dateStr = dateStr.trim();
+        Calendar cal = Calendar.getInstance();
         if (dateStr.length() == 19 || dateStr.length() == 23) {
-            try {
-                Calendar cal = Calendar.getInstance();
-                cal.set(Integer.parseInt(dateStr.substring(0, 4)),
-                        Integer.parseInt(dateStr.substring(5, 7)) - 1,
-                        Integer.parseInt(dateStr.substring(8, 10)),
-                        Integer.parseInt(dateStr.substring(11, 13)),
-                        Integer.parseInt(dateStr.substring(14, 16)),
-                        Integer.parseInt(dateStr.substring(17, 19)));
-                cal.set(Calendar.MILLISECOND, 0);
-                return (cal.getTime().getTime());
-            } catch (Exception e) {
-                return 0;
-            }
 
+            cal.set(Integer.parseInt(dateStr.substring(0, 4)),
+                    Integer.parseInt(dateStr.substring(5, 7)) - 1,
+                    Integer.parseInt(dateStr.substring(8, 10)),
+                    Integer.parseInt(dateStr.substring(11, 13)),
+                    Integer.parseInt(dateStr.substring(14, 16)),
+                    Integer.parseInt(dateStr.substring(17, 19)));
+            cal.set(Calendar.MILLISECOND, 0);
+            return (cal.getTime().getTime());
         } else if (dateStr.length() == 16) {
-            try {
-                Calendar cal = Calendar.getInstance();
-                cal.set(Integer.parseInt(dateStr.substring(0, 4)),
-                        Integer.parseInt(dateStr.substring(5, 7)) - 1,
-                        Integer.parseInt(dateStr.substring(8, 10)),
-                        Integer.parseInt(dateStr.substring(11, 13)),
-                        Integer.parseInt(dateStr.substring(14, 16)));
-                cal.set(Calendar.MILLISECOND, 0);
-                return (cal.getTime().getTime());
-            } catch (Exception e) {
-                return 0;
-            }
-
+            cal.set(Integer.parseInt(dateStr.substring(0, 4)),
+                    Integer.parseInt(dateStr.substring(5, 7)) - 1,
+                    Integer.parseInt(dateStr.substring(8, 10)),
+                    Integer.parseInt(dateStr.substring(11, 13)),
+                    Integer.parseInt(dateStr.substring(14, 16)));
+            cal.set(Calendar.MILLISECOND, 0);
+            return (cal.getTime().getTime());
         } else if (dateStr.length() == 14) {
-            try {
-                Calendar cal = Calendar.getInstance();
-                cal.set(Integer.parseInt(dateStr.substring(0, 4)),
-                        Integer.parseInt(dateStr.substring(4, 6)) - 1,
-                        Integer.parseInt(dateStr.substring(6, 8)),
-                        Integer.parseInt(dateStr.substring(8, 10)),
-                        Integer.parseInt(dateStr.substring(10, 12)),
-                        Integer.parseInt(dateStr.substring(12, 14)));
-                cal.set(Calendar.MILLISECOND, 0);
-                return (cal.getTime().getTime());
-            } catch (Exception e) {
-                return 0;
-            }
+            cal.set(Integer.parseInt(dateStr.substring(0, 4)),
+                    Integer.parseInt(dateStr.substring(4, 6)) - 1,
+                    Integer.parseInt(dateStr.substring(6, 8)),
+                    Integer.parseInt(dateStr.substring(8, 10)),
+                    Integer.parseInt(dateStr.substring(10, 12)),
+                    Integer.parseInt(dateStr.substring(12, 14)));
+            cal.set(Calendar.MILLISECOND, 0);
+            return (cal.getTime().getTime());
         } else if (dateStr.length() == 10 || dateStr.length() == 11) {
-            try {
-                Calendar cal = Calendar.getInstance();
-                cal.set(Integer.parseInt(dateStr.substring(0, 4)),
-                        Integer.parseInt(dateStr.substring(5, 7)) - 1,
-                        Integer.parseInt(dateStr.substring(8, 10)), 0, 0, 0);
-                cal.set(Calendar.MILLISECOND, 0);
-                return (cal.getTime().getTime());
-            } catch (Exception e) {
-                return 0;
-            }
+            cal.set(Integer.parseInt(dateStr.substring(0, 4)),
+                    Integer.parseInt(dateStr.substring(5, 7)) - 1,
+                    Integer.parseInt(dateStr.substring(8, 10)), 0, 0, 0);
+            cal.set(Calendar.MILLISECOND, 0);
+            return (cal.getTime().getTime());
         } else if (dateStr.length() == 8) {
-            try {
-                Calendar cal = Calendar.getInstance();
-                cal.set(Integer.parseInt(dateStr.substring(0, 4)),
-                        Integer.parseInt(dateStr.substring(4, 6)) - 1,
-                        Integer.parseInt(dateStr.substring(6, 8)), 0, 0, 0);
-                cal.set(Calendar.MILLISECOND, 0);
-                return (cal.getTime().getTime());
-            } catch (Exception e) {
-                return 0;
-            }
+            cal.set(Integer.parseInt(dateStr.substring(0, 4)),
+                    Integer.parseInt(dateStr.substring(4, 6)) - 1,
+                    Integer.parseInt(dateStr.substring(6, 8)), 0, 0, 0);
+            cal.set(Calendar.MILLISECOND, 0);
+            return (cal.getTime().getTime());
         } else {
-            try {
-                return Long.parseLong(dateStr);
-            } catch (Exception e) {
-                return 0;
-            }
-
+            return Long.parseLong(dateStr);
         }
+    }
+
+    /**
+     * 根据时间戳，获取当天凌晨时间  2019-10-18 00:00:00.0
+     *
+     * @return {@link Timestamp}
+     */
+    public static Timestamp getCurrentDayStartTime() {
+        //当日零点零分零秒的毫秒数
+        long zero = todayZeroTime();
+        return new Timestamp(zero);
+    }
+
+    /**
+     * 根据时间戳，获取当天最晚时间段  2019-10-18 23:59:59.999
+     *
+     * @return {@link Timestamp}
+     */
+    public static Timestamp getCurrentDayEndTime() {
+        long zero = todayZeroTime();
+        //今天23点59分59秒的毫秒数
+        long twelve = zero + 24 * 60 * 60 * 1000 - 1;
+        return new Timestamp(twelve);
+    }
+
+    /**
+     * 今天零点零分零秒的毫秒数
+     *
+     * @return 今天零点零分零秒的毫秒数
+     */
+    private static long todayZeroTime() {
+        return System.currentTimeMillis() / (1000 * 3600 * 24) * (1000 * 3600 * 24) - TimeZone.getDefault().getRawOffset();
+    }
+
+    @Override
+    public Date convert(String source) {
+        String value = source.trim();
+        if (StringUtils.EMPTY.equals(value)) {
+            return null;
+        }
+        if (source.matches("^\\d{4}-\\d{1,2}$")) {
+            return parseDate(source, FOR_MARTS.get(0));
+        } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2}$")) {
+            return parseDate(source, FOR_MARTS.get(1));
+        } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}$")) {
+            return parseDate(source, FOR_MARTS.get(2));
+        } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}:\\d{1,2}$")) {
+            return parseDate(source, FOR_MARTS.get(3));
+        } else {
+            throw new IllegalArgumentException("Invalid boolean value '" + source + "'");
+        }
+    }
+
+    /**
+     * 格式化日期
+     *
+     * @param dateStr String 字符型日期
+     * @param format  String 格式
+     * @return Date 日期
+     */
+    @SneakyThrows(Exception.class)
+    public Date parseDate(String dateStr, String format) {
+        DateFormat dateFormat = new SimpleDateFormat(format);
+        return dateFormat.parse(dateStr);
     }
 }

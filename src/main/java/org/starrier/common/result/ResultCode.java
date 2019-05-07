@@ -5,6 +5,7 @@ package org.starrier.common.result;
  * @date 2019/1/31.
  */
 public enum ResultCode {
+
     /* 成功状态码 */
     SUCCESS(0, "成功"),
     ERROR(1, "失败"),
@@ -14,6 +15,10 @@ public enum ResultCode {
     PARAM_IS_BLANK(10002, "参数为空"),
     PARAM_TYPE_BIND_ERROR(10003, "参数类型错误"),
     PARAM_NOT_COMPLETE(10004, "参数缺失"),
+
+    /**
+     * MicroSoft
+     */
 
 
     /* 用户错误：20001-29999*/
@@ -49,7 +54,9 @@ public enum ResultCode {
     /* 文件上传 */
     UPLOAD_ERROR(80001, "上传失败"),
 
-    SESSION_TIME_OUT(90001, "Session超时");
+    SESSION_TIME_OUT(90001, "Session超时"),
+
+    REQUEST_LIMIT(10001, "请求次数受限");
 
     private Integer code;
 
@@ -58,14 +65,6 @@ public enum ResultCode {
     ResultCode(Integer code, String message) {
         this.code = code;
         this.message = message;
-    }
-
-    public Integer code() {
-        return this.code;
-    }
-
-    public String message() {
-        return this.message;
     }
 
     public static String getMessage(String name) {
@@ -84,6 +83,14 @@ public enum ResultCode {
             }
         }
         return null;
+    }
+
+    public Integer code() {
+        return this.code;
+    }
+
+    public String message() {
+        return this.message;
     }
 
     @Override
