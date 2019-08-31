@@ -2,7 +2,6 @@ package org.starrier.common.http;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -15,10 +14,13 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import parquet.org.slf4j.Logger;
+import parquet.org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
+
 
 import static org.starrier.common.constant.HttpConstant.ARGS;
 import static org.starrier.common.constant.HttpConstant.CLASS_METHOD;
@@ -32,11 +34,12 @@ import static org.starrier.common.constant.HttpConstant.URL;
  * @date 2018/11/6.
  */
 @Aspect
-@Slf4j
 @Component
 public class HttpAspect {
 
-    @Pointcut("@annotation(org.starrier.common.annotation.Http)")
+    public static Logger LOGGER = LoggerFactory.getLogger(HttpAspect.class);
+
+    @Pointcut("@annotation(org.starrier.common.annotation.customer.Http)")
     public void log() {
     }
 
@@ -62,24 +65,19 @@ public class HttpAspect {
         params.put(CLASS_METHOD, joinPoint.getSignature().getName());
         params.put(ARGS, joinPoint.getArgs());
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        log.info("REQUEST:{}", gson.toJson(params));
     }
 
     @Around("log()")
     public Object doAround(ProceedingJoinPoint point) {
         try {
-            Object object = point.proceed();
-            log.info("doAround");
-            return object;
+            return  point.proceed();
         } catch (Throwable throwable) {
-            log.info("doAround.......");
             return null;
         }
     }
 
     @After("log()")
     public void doAfter() {
-        log.info("doAfter ......");
     }
 
     /**
@@ -90,11 +88,9 @@ public class HttpAspect {
      */
     @AfterReturning(returning = "object", pointcut = "log()")
     public void doAfterReturning(Object object) {
-        log.info("RESPONSE : {}", object.toString());
     }
 
     @AfterThrowing(pointcut = "log()")
     public void doAfterThrowing() {
-        log.error("doAfterThrowing: {}", " 异常情况!");
     }
 }

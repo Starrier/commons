@@ -1,6 +1,7 @@
 package org.starrier.common.result;
 
 import com.google.common.collect.Maps;
+import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

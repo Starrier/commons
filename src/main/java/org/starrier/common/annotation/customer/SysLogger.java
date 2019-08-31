@@ -1,9 +1,10 @@
-package org.starrier.common.annotation;
+package org.starrier.common.annotation.customer;
 
 import java.lang.annotation.*;
 
 /**
- * Created by fangzhipeng on 2017/7/12.
+ * @author Starrier
+ * @date 2019/08/25
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

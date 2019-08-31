@@ -5,6 +5,7 @@ import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.core.convert.converter.Converter;
+import org.starrier.common.annotation.logger.ExceptionZero;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -13,6 +14,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static org.starrier.common.constant.Constant.FOUR;
 import static org.starrier.common.constant.DataConstant.DATE_FORMAT_DEFAULT;
 
 /**
@@ -21,13 +23,12 @@ import static org.starrier.common.constant.DataConstant.DATE_FORMAT_DEFAULT;
  */
 public class DateUtils implements Converter<String, Date> {
 
-
-    private static final List<String> formarts = Lists.newArrayListWithExpectedSize(4);
+    private static final List<String> FOR_MARTS = Lists.newArrayListWithExpectedSize(FOUR);
 
     /**
-     * @param date
-     * @param num
-     * @return
+     * @param date {@link String}
+     * @param num {@link Integer}
+     * @return {@link String}
      */
     public static String getDay(String date, int num) {
         return getDay(date, num, DATE_FORMAT_DEFAULT);
@@ -40,8 +41,7 @@ public class DateUtils implements Converter<String, Date> {
      * @return
      */
     public static String getDay(String date, int num, String format) {
-        long t = parseStringToLong(date);
-        return getDay(t, num, DATE_FORMAT_DEFAULT);
+        return getDay(parseStringToLong(date), num, DATE_FORMAT_DEFAULT);
     }
 
     /**
@@ -91,8 +91,7 @@ public class DateUtils implements Converter<String, Date> {
         if (StringUtils.isBlank(format)) {
             format = DATE_FORMAT_DEFAULT;
         }
-        DateTime dTime = new DateTime(time);
-        return dTime.toString(format);
+        return new DateTime().toString(format);
     }
 
     /**
@@ -154,120 +153,88 @@ public class DateUtils implements Converter<String, Date> {
      * 获得当前时间
      *
      * @param format 日期格式
-     * @return
+     * @return {@link String}
      */
     public static String getCurrentTime(String format) {
-        DateTime dTime = new DateTime();
-        return dTime.toString(format);
+        return new DateTime().toString(format);
     }
 
     /**
      * 将字符串类型的日期转换为毫秒数
      *
-     * @param dateStr
-     * @return
+     * @param dateStr is the start of time.
+     * @return {@link Long}
      */
+    @ExceptionZero
     public static long parseStringToLong(String dateStr) {
         dateStr = dateStr.trim();
+        Calendar cal = Calendar.getInstance();
         if (dateStr.length() == 19 || dateStr.length() == 23) {
-            try {
-                Calendar cal = Calendar.getInstance();
-                cal.set(Integer.parseInt(dateStr.substring(0, 4)),
-                        Integer.parseInt(dateStr.substring(5, 7)) - 1,
-                        Integer.parseInt(dateStr.substring(8, 10)),
-                        Integer.parseInt(dateStr.substring(11, 13)),
-                        Integer.parseInt(dateStr.substring(14, 16)),
-                        Integer.parseInt(dateStr.substring(17, 19)));
-                cal.set(Calendar.MILLISECOND, 0);
-                return (cal.getTime().getTime());
-            } catch (Exception e) {
-                return 0;
-            }
 
+            cal.set(Integer.parseInt(dateStr.substring(0, 4)),
+                    Integer.parseInt(dateStr.substring(5, 7)) - 1,
+                    Integer.parseInt(dateStr.substring(8, 10)),
+                    Integer.parseInt(dateStr.substring(11, 13)),
+                    Integer.parseInt(dateStr.substring(14, 16)),
+                    Integer.parseInt(dateStr.substring(17, 19)));
+            cal.set(Calendar.MILLISECOND, 0);
+            return (cal.getTime().getTime());
         } else if (dateStr.length() == 16) {
-            try {
-                Calendar cal = Calendar.getInstance();
-                cal.set(Integer.parseInt(dateStr.substring(0, 4)),
-                        Integer.parseInt(dateStr.substring(5, 7)) - 1,
-                        Integer.parseInt(dateStr.substring(8, 10)),
-                        Integer.parseInt(dateStr.substring(11, 13)),
-                        Integer.parseInt(dateStr.substring(14, 16)));
-                cal.set(Calendar.MILLISECOND, 0);
-                return (cal.getTime().getTime());
-            } catch (Exception e) {
-                return 0;
-            }
-
+            cal.set(Integer.parseInt(dateStr.substring(0, 4)),
+                    Integer.parseInt(dateStr.substring(5, 7)) - 1,
+                    Integer.parseInt(dateStr.substring(8, 10)),
+                    Integer.parseInt(dateStr.substring(11, 13)),
+                    Integer.parseInt(dateStr.substring(14, 16)));
+            cal.set(Calendar.MILLISECOND, 0);
+            return (cal.getTime().getTime());
         } else if (dateStr.length() == 14) {
-            try {
-                Calendar cal = Calendar.getInstance();
-                cal.set(Integer.parseInt(dateStr.substring(0, 4)),
-                        Integer.parseInt(dateStr.substring(4, 6)) - 1,
-                        Integer.parseInt(dateStr.substring(6, 8)),
-                        Integer.parseInt(dateStr.substring(8, 10)),
-                        Integer.parseInt(dateStr.substring(10, 12)),
-                        Integer.parseInt(dateStr.substring(12, 14)));
-                cal.set(Calendar.MILLISECOND, 0);
-                return (cal.getTime().getTime());
-            } catch (Exception e) {
-                return 0;
-            }
+            cal.set(Integer.parseInt(dateStr.substring(0, 4)),
+                    Integer.parseInt(dateStr.substring(4, 6)) - 1,
+                    Integer.parseInt(dateStr.substring(6, 8)),
+                    Integer.parseInt(dateStr.substring(8, 10)),
+                    Integer.parseInt(dateStr.substring(10, 12)),
+                    Integer.parseInt(dateStr.substring(12, 14)));
+            cal.set(Calendar.MILLISECOND, 0);
+            return (cal.getTime().getTime());
         } else if (dateStr.length() == 10 || dateStr.length() == 11) {
-            try {
-                Calendar cal = Calendar.getInstance();
-                cal.set(Integer.parseInt(dateStr.substring(0, 4)),
-                        Integer.parseInt(dateStr.substring(5, 7)) - 1,
-                        Integer.parseInt(dateStr.substring(8, 10)), 0, 0, 0);
-                cal.set(Calendar.MILLISECOND, 0);
-                return (cal.getTime().getTime());
-            } catch (Exception e) {
-                return 0;
-            }
+            cal.set(Integer.parseInt(dateStr.substring(0, 4)),
+                    Integer.parseInt(dateStr.substring(5, 7)) - 1,
+                    Integer.parseInt(dateStr.substring(8, 10)), 0, 0, 0);
+            cal.set(Calendar.MILLISECOND, 0);
+            return (cal.getTime().getTime());
         } else if (dateStr.length() == 8) {
-            try {
-                Calendar cal = Calendar.getInstance();
-                cal.set(Integer.parseInt(dateStr.substring(0, 4)),
-                        Integer.parseInt(dateStr.substring(4, 6)) - 1,
-                        Integer.parseInt(dateStr.substring(6, 8)), 0, 0, 0);
-                cal.set(Calendar.MILLISECOND, 0);
-                return (cal.getTime().getTime());
-            } catch (Exception e) {
-                return 0;
-            }
+            cal.set(Integer.parseInt(dateStr.substring(0, 4)),
+                    Integer.parseInt(dateStr.substring(4, 6)) - 1,
+                    Integer.parseInt(dateStr.substring(6, 8)), 0, 0, 0);
+            cal.set(Calendar.MILLISECOND, 0);
+            return (cal.getTime().getTime());
         } else {
-            try {
-                return Long.parseLong(dateStr);
-            } catch (Exception e) {
-                return 0;
-            }
-
+            return Long.parseLong(dateStr);
         }
     }
 
 
     static {
-        formarts.add("yyyy-MM");
-        formarts.add("yyyy-MM-dd");
-        formarts.add("yyyy-MM-dd hh:mm");
-        formarts.add("yyyy-MM-dd hh:mm:ss");
+        FOR_MARTS.add("yyyy-MM");
+        FOR_MARTS.add("yyyy-MM-dd");
+        FOR_MARTS.add("yyyy-MM-dd hh:mm");
+        FOR_MARTS.add("yyyy-MM-dd hh:mm:ss");
     }
 
     @Override
     public Date convert(String source) {
-
         String value = source.trim();
-
         if (StringUtils.EMPTY.equals(value)) {
             return null;
         }
         if (source.matches("^\\d{4}-\\d{1,2}$")) {
-            return parseDate(source, formarts.get(0));
+            return parseDate(source, FOR_MARTS.get(0));
         } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2}$")) {
-            return parseDate(source, formarts.get(1));
+            return parseDate(source, FOR_MARTS.get(1));
         } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}$")) {
-            return parseDate(source, formarts.get(2));
+            return parseDate(source, FOR_MARTS.get(2));
         } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}:\\d{1,2}$")) {
-            return parseDate(source, formarts.get(3));
+            return parseDate(source, FOR_MARTS.get(3));
         } else {
             throw new IllegalArgumentException("Invalid boolean value '" + source + "'");
         }
@@ -283,7 +250,6 @@ public class DateUtils implements Converter<String, Date> {
      */
     @SneakyThrows(Exception.class)
     public Date parseDate(String dateStr, String format) {
-        Date date = null;
         DateFormat dateFormat = new SimpleDateFormat(format);
         return dateFormat.parse(dateStr);
     }

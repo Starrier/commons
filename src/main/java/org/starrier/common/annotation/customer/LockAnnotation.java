@@ -1,4 +1,4 @@
-package org.starrier.common.annotation;
+package org.starrier.common.annotation.customer;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

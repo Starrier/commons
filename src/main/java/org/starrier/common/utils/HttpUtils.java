@@ -23,7 +23,6 @@ import static org.starrier.common.constant.HttpConstant.X_FORWARDED_FOR;
  * @author Starrier
  * @date 018/10/31.
  */
-@Slf4j
 public class HttpUtils {
 
     /**
@@ -78,8 +77,8 @@ public class HttpUtils {
                 ip = request.getRemoteAddr();
             }
         } else if (ip.length() > 15) {
-            var ips = POINT.split(ip);
-            for (var s : ips) {
+            String[] ips = POINT.split(ip);
+            for (String s : ips) {
                 if (!(s.equalsIgnoreCase(UNKNOWN))) {
                     ip = s;
                     break;

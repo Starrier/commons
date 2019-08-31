@@ -1,8 +1,12 @@
-package org.starrier.common.annotation;
+package org.starrier.common.annotation.customer;
 
 import java.lang.annotation.*;
 
 /**
+ * @describe
+ *
+ *
+ *
  * @author Starrier
  * @date 2018/12/9.
  */
@@ -12,7 +16,7 @@ import java.lang.annotation.*;
 public @interface DuplicateSubmitToken {
 
     /**
-     * Save duplicate commit tags,default to true
+     * Save duplicate commit tags, default to true
      * */
     boolean save() default true;
 

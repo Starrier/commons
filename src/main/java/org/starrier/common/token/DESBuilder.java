@@ -1,6 +1,8 @@
 package org.starrier.common.token;
 
 import lombok.Cleanup;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.SneakyThrows;
 import org.apache.commons.codec.binary.Base64;
 
@@ -23,6 +25,8 @@ import static org.starrier.common.token.TokenConstant.KEY_ALGORTHM;
 public class DESBuilder {
 
 
+    @Getter
+    @Setter
     private Key key;
 
     /**
@@ -42,17 +46,9 @@ public class DESBuilder {
             KeyGenerator generator = KeyGenerator.getInstance(KEY_ALGORTHM);
             generator.init(new SecureRandom(strKey.getBytes()));
             this.key = generator.generateKey();
-            generator = null;
         } catch (Exception e) {
             throw new RuntimeException("Error initializing SqlMap class. Cause: " + e);
         }
-    }
-
-    /**
-     * @return Key对象
-     */
-    public Key getKey() {
-        return key;
     }
 
     /**
@@ -65,11 +61,10 @@ public class DESBuilder {
     /**
      * @return 文件
      */
-    public void getKeyToFile(String keyAddress)throws IOException,FileNotFoundException {
-        @Cleanup FileOutputStream fileOutput =null;
-        @Cleanup ObjectOutputStream objectOutput = null;
-        fileOutput = new FileOutputStream(keyAddress);
-        objectOutput = new ObjectOutputStream(fileOutput);
-        objectOutput.writeObject(this.key);
+    public void getKeyToFile(String keyAddress)throws IOException {
+        try(FileOutputStream fileOutput = new FileOutputStream(keyAddress);
+            ObjectOutputStream  objectOutput = new ObjectOutputStream(fileOutput);){
+            objectOutput.writeObject(this.key);
+        }
     }
 }

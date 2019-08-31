@@ -1,4 +1,4 @@
-package org.starrier.common.annotation;
+package org.starrier.common.annotation.threadSafe;
 
 import net.jcip.annotations.ThreadSafe;
 

@@ -4,7 +4,7 @@ import java.lang.annotation.*;
 
 /**
  * Customer annotation rateLimiter.
- * More detail in {@link com.google.common.util.concurrent.RateLimiter}
+ * More detail in {@link com.google.common}
  *
  * @author Starrier
  * @date 2019/1/3.
