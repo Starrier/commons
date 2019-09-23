@@ -1,6 +1,5 @@
 package org.starrier.common.utils;
 
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -14,7 +13,6 @@ import java.util.Date;
  * @author imperator
  * @date 2019-09-10
  */
-@Slf4j
 public class JodaTimeUtil {
 
     private static final String STANDARD_FORMAT = "yyyy-MM-dd HH:mm:ss";
