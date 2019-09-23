@@ -6,6 +6,27 @@
     <groupId>org.starrier</groupId>
     <artifactId>common</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <guava.version>28.0-jre</guava.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.encoding>UTF-8</project.encoding>
+        <spring.boot.version>2.1.4.RELEASE</spring.boot.version>
+        <lombok.version>1.18.6</lombok.version>
+        <commons.lang3.version>3.8.1</commons.lang3.version>
+        <commons.codec.version>1.11</commons.codec.version>
+        <jjwt.version>0.9.1</jjwt.version>
+        <joda.time.version>2.10.1</joda.time.version>
+        <maven.snapshots.url>http://maven.starrier.org/repository/maven-snapshots/</maven.snapshots.url>
+        <maven.plugin.compile>3.8.0</maven.plugin.compile>
+        <maven.plugin.jar>3.1.1</maven.plugin.jar>
+        <maven.plugin.deploy>2.8.2</maven.plugin.deploy>
+        <maven.plugin.source>3.0.1</maven.plugin.source>
+        <jedis.version>2.9.0</jedis.version>
+        <maven.plugin.project.info.reports>2.6</maven.plugin.project.info.reports>
+    </properties>
+    
     <dependencies>
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -92,24 +113,7 @@
     <description>common for Starrier</description>
     <packaging>jar</packaging>
 
-    <properties>
-        <java.version>1.8</java.version>
-        <guava.version>28.0-jre</guava.version>
-        <project.encoding>UTF-8</project.encoding>
-        <spring.boot.version>2.1.4.RELEASE</spring.boot.version>
-        <lombok.version>1.18.6</lombok.version>
-        <commons.lang3.version>3.8.1</commons.lang3.version>
-        <commons.codec.version>1.11</commons.codec.version>
-        <jjwt.version>0.9.1</jjwt.version>
-        <joda.time.version>2.10.1</joda.time.version>
-        <maven.snapshots.url>http://maven.starrier.org/repository/maven-snapshots/</maven.snapshots.url>
-        <maven.plugin.compile>3.8.0</maven.plugin.compile>
-        <maven.plugin.jar>3.1.1</maven.plugin.jar>
-        <maven.plugin.deploy>2.8.2</maven.plugin.deploy>
-        <maven.plugin.source>3.0.1</maven.plugin.source>
-        <jedis.version>2.9.0</jedis.version>
-        <maven.plugin.project.info.reports>2.6</maven.plugin.project.info.reports>
-    </properties>
+
 
     <dependencyManagement>
         <dependencies>
