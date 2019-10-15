@@ -1,4 +1,4 @@
-package org.starrier.common.annotation.threadSafe;
+package org.starrier.common.annotation.threadsafe;
 
 import net.jcip.annotations.ThreadSafe;
 
@@ -16,5 +16,5 @@ import java.lang.annotation.*;
 @ThreadSafe
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ThreadSafeMethod {
+public @interface ThreadSafeVariable {
 }

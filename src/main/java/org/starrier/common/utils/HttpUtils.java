@@ -1,7 +1,6 @@
 package org.starrier.common.utils;
 
 import com.google.common.collect.Maps;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
