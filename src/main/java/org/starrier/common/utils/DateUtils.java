@@ -19,6 +19,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import static org.starrier.common.constant.Constant.FOUR;
 import static org.starrier.common.constant.DataConstant.DATE_FORMAT_DEFAULT;
@@ -324,5 +325,33 @@ public class DateUtils implements Converter<String, Date> {
     public Date parseDate(String dateStr, String format) {
         DateFormat dateFormat = new SimpleDateFormat(format);
         return dateFormat.parse(dateStr);
+    }
+
+    /**
+     * 根据时间戳，获取当天凌晨时间  2019-10-18 00:00:00.0
+     *
+     * @return {@link Timestamp}
+     */
+    public static Timestamp getCurrentDayStartTime() {
+        //当前时间毫秒数
+        long current = System.currentTimeMillis();
+        //当日零点零分零秒的毫秒数
+        long zero = current / (1000 * 3600 * 24) * (1000 * 3600 * 24) - TimeZone.getDefault().getRawOffset();
+        return new Timestamp(zero);
+    }
+
+    /**
+     * 根据时间戳，获取当天最晚时间段  2019-10-18 23:59:59.999
+     *
+     * @return {@link Timestamp}
+     */
+    public static Timestamp getCurrentDayEndTime() {
+        //当前时间毫秒数
+        long current = System.currentTimeMillis();
+        //今天零点零分零秒的毫秒数
+        long zero = current / (1000 * 3600 * 24) * (1000 * 3600 * 24) - TimeZone.getDefault().getRawOffset();
+        //今天23点59分59秒的毫秒数
+        long twelve = zero + 24 * 60 * 60 * 1000 - 1;
+        return new Timestamp(twelve);
     }
 }
