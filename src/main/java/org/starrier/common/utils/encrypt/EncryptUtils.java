@@ -1,4 +1,4 @@
-package org.starrier.common.utils;
+package org.starrier.common.utils.encrypt;
 
 
 import org.apache.commons.codec.binary.Hex;
@@ -14,7 +14,7 @@ import java.security.SecureRandom;
  * @author imperator
  * @date 2019-09-09
  */
-public enum  EncryptUtils {
+public enum EncryptUtils {
 
     /**
      * SINGLETON
@@ -26,7 +26,7 @@ public enum  EncryptUtils {
     private static final String CHARSET = "UTF-8";
 
 
-    public String sha(String raw)throws Exception{
+    public String sha(String raw) throws Exception {
         MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
         messageDigest.update(raw.getBytes(CHARSET));
         return Hex.encodeHexString(messageDigest.digest());

@@ -2,9 +2,11 @@ package org.starrier.common.result;
 
 import com.google.common.collect.Maps;
 import com.google.gson.annotations.SerializedName;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
@@ -20,11 +22,12 @@ import java.util.Map;
  * @date 2018/11/11.
  * @see Result is the enhanced and custom version of  response.
  */
-@AllArgsConstructor
 @Accessors(chain = true)
 @Setter
 @Getter
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Result implements Serializable {
 
     private static final long serialVersionUID = -1709587390161841001L;
@@ -36,9 +39,6 @@ public class Result implements Serializable {
     private String url;
 
     private Object data;
-
-    private Result() {
-    }
 
     public Integer getCode() {
         return code;
@@ -83,9 +83,23 @@ public class Result implements Serializable {
         return result;
     }
 
+    public static Result success(Object data,String message){
+        Result result = new Result();
+        result.setData(data);
+        result.setMessage(message);
+        return result;
+    }
+
     public static Result error(ResultCode resultCode) {
         Result result = new Result();
         result.setResultCode(resultCode);
+        return result;
+    }
+
+    public static Result error(String errorMessage) {
+        Result result = new Result();
+        result.setResultCode(ResultCode.ERROR);
+        result.setMessage(errorMessage);
         return result;
     }
 

@@ -15,6 +15,7 @@ public class ScheduleUtil {
     public interface SRunnable extends Runnable {
         String getName();
     }
+
     private static HashMap<String, ScheduledFuture> map = new HashMap<>();
     private static ScheduledExecutorService pool;
 

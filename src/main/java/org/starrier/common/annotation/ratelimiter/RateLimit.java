@@ -17,12 +17,12 @@ public @interface RateLimit {
 
     /**
      * Add a token to the token bucket at a fixed rate per second.
-     * */
+     */
     double limitNum() default 20;
 
     /**
      * If the token is not obtained in the specified number,
      * the service demotion process is taken directly.
-     * */
+     */
     long timeout();
 }

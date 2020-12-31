@@ -100,7 +100,7 @@ public class DateUtils implements Converter<String, Date> {
 
     /**
      * @param date {@link String}
-     * @param num {@link Integer}
+     * @param num  {@link Integer}
      * @return {@link String}
      */
     public static String getDay(String date, int num) {

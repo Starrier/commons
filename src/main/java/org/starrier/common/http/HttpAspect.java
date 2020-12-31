@@ -70,7 +70,7 @@ public class HttpAspect {
     @Around("log()")
     public Object doAround(ProceedingJoinPoint point) {
         try {
-            return  point.proceed();
+            return point.proceed();
         } catch (Throwable throwable) {
             return null;
         }

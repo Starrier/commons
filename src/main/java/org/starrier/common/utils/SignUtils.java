@@ -17,7 +17,7 @@ import java.util.SortedMap;
  */
 public class SignUtils {
 
-    private static final Logger LOGGER  = LoggerFactory.getLogger(SignUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SignUtils.class);
 
     /**
      * 验签
@@ -29,17 +29,17 @@ public class SignUtils {
      */
     public static boolean verifySign(SortedMap<String, String> params, String sign, Long timestamp) {
         String paramsJson = "Timestamp" + timestamp + JSONObject.toJSONString(params);
-        return verifySign(paramsJson,sign);
+        return verifySign(paramsJson, sign);
     }
 
-    public static boolean verifySign(String params, String sign){
-        LOGGER.info("Header sign:[{}]",sign);
-        if (StringUtils.isEmpty(params)){
+    public static boolean verifySign(String params, String sign) {
+        LOGGER.info("Header sign:[{}]", sign);
+        if (StringUtils.isEmpty(params)) {
             return false;
         }
-        LOGGER.info("Params:[{}]",params);
+        LOGGER.info("Params:[{}]", params);
         String paramSign = getParamsSign(params);
-        LOGGER.info("Param sign:[{}]",paramSign);
+        LOGGER.info("Param sign:[{}]", paramSign);
         return sign.equals(paramSign);
     }
 

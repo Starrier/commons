@@ -23,7 +23,6 @@ import static org.starrier.common.constant.Constant.ZERO;
  * <p>
  * Description :
  */
-@NoArgsConstructor
 @Getter
 @Setter
 public class SensitiveWordUtil {
@@ -50,17 +49,23 @@ public class SensitiveWordUtil {
         initSensitiveWordMap(sensitiveWordSet);
     }
 
+    private SensitiveWordUtil() {
+        init(null);
+    }
+
     /**
-     * 初始化敏感词库，构建DFA算法模型
+     * 初始化敏感词库，构建 DFA 算法模型
      *
      * @param sensitiveWordSet 敏感词库
      */
+    @SuppressWarnings({"rawtypes", "unchecked"})
     private static void initSensitiveWordMap(Set<String> sensitiveWordSet) {
         //初始化敏感词容器，减少扩容操作
-        sensitiveWordMap =new HashMap(sensitiveWordSet.size());
+        sensitiveWordMap = new HashMap<>(sensitiveWordSet.size());
         String key;
         Map nowMap;
-        Map<String, String> newWorMap;
+        Map newWorMap;
+
         //迭代sensitiveWordSet
         for (String s : sensitiveWordSet) {
             //关键字
@@ -179,7 +184,7 @@ public class SensitiveWordUtil {
      * @param txt         文本
      * @param replaceChar 替换的字符，匹配的敏感词以字符逐个替换，
      *                    如 语句：我爱中国人 敏感词：中国人，替换字符：*， 替换结果：我爱***
-     * @return result come from {@see  SensitiveWordUtil#replaceSensitiveWord(String, char)}
+     * @return result come from {@see SensitiveWordUtil#replaceSensitiveWord(String, char)}
      */
     public static String replaceSensitiveWord(String txt, char replaceChar) {
         return replaceSensitiveWord(txt, replaceChar, MAX_MATCH_TYPE);

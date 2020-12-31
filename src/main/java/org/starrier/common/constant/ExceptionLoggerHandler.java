@@ -12,7 +12,8 @@ import org.aspectj.lang.annotation.Pointcut;
 public class ExceptionLoggerHandler {
 
     @Pointcut("@annotation(org.starrier.common.annotation.logger.ExceptionLogger)")
-    public void log(){}
+    public void log() {
+    }
 
     @Before("log()")
     public void doBefore(JoinPoint joinPoint) {
@@ -20,7 +21,7 @@ public class ExceptionLoggerHandler {
     }
 
     @Around("log()")
-    public void around(){
+    public void around() {
 
     }
 }

@@ -9,15 +9,15 @@ import java.lang.annotation.Annotation;
 
 /**
  * @author Starrier
- * @date  2018/11/17.
+ * @date 2018/11/17.
  */
-public class IsMobileValidator implements ConstraintValidator<IsMobile,String> {
+public class IsMobileValidator implements ConstraintValidator<IsMobile, String> {
 
-    private boolean required =false;
+    private boolean required = false;
 
     @Override
     public void initialize(IsMobile isMobile) {
-        required=isMobile.required();
+        required = isMobile.required();
     }
 
     @Override

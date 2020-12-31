@@ -5,6 +5,7 @@ package org.starrier.common.result;
  * @date 2019/1/31.
  */
 public enum ResultCode {
+
     /* 成功状态码 */
     SUCCESS(0, "成功"),
     ERROR(1, "失败"),
@@ -53,7 +54,9 @@ public enum ResultCode {
     /* 文件上传 */
     UPLOAD_ERROR(80001, "上传失败"),
 
-    SESSION_TIME_OUT(90001, "Session超时");
+    SESSION_TIME_OUT(90001, "Session超时"),
+
+    REQUEST_LIMIT(10001, "请求次数受限");
 
     private Integer code;
 

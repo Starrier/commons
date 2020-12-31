@@ -1,4 +1,4 @@
-package org.starrier.common.utils;
+package org.starrier.common.utils.encrypt;
 
 import org.apache.commons.codec.digest.DigestUtils;
 

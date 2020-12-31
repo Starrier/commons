@@ -8,11 +8,11 @@ import java.lang.annotation.*;
  * @author Starrier
  * @date 2018/12/15.
  */
-@Target({ ElementType.TYPE,
+@Target({ElementType.TYPE,
         ElementType.FIELD,
         ElementType.ANNOTATION_TYPE,
         ElementType.CONSTRUCTOR,
-         })
+})
 @ThreadSafe
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

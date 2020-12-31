@@ -14,7 +14,8 @@ public @interface LockParamAnnotation {
 
     /**
      * 参数的域，用于表明参数的业务场景，例如 orderSn.
+     *
      * @return String.
-     * */
+     */
     String value() default "";
 }

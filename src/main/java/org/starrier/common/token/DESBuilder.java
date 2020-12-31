@@ -61,9 +61,9 @@ public class DESBuilder {
     /**
      * @return 文件
      */
-    public void getKeyToFile(String keyAddress)throws IOException {
-        try(FileOutputStream fileOutput = new FileOutputStream(keyAddress);
-            ObjectOutputStream  objectOutput = new ObjectOutputStream(fileOutput);){
+    public void getKeyToFile(String keyAddress) throws IOException {
+        try (FileOutputStream fileOutput = new FileOutputStream(keyAddress);
+             ObjectOutputStream objectOutput = new ObjectOutputStream(fileOutput);) {
             objectOutput.writeObject(this.key);
         }
     }

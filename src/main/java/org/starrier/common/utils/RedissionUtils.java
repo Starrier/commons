@@ -1,6 +1,5 @@
 package org.starrier.common.utils;
 
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author Starrier
@@ -18,7 +17,7 @@ public class RedissionUtils {
         if (redissionUtils == null) {
             synchronized (RedissionUtils.class) {
                 if (redissionUtils == null) {
-                     redissionUtils = new RedissionUtils();
+                    redissionUtils = new RedissionUtils();
                 }
             }
         }

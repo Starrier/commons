@@ -7,10 +7,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @describe
- *
- *
- *
  * @author Starrier
  * @date 2018/12/9.
  */
@@ -21,7 +17,7 @@ public @interface DuplicateSubmitToken {
 
     /**
      * Save duplicate commit tags, default to true
-     * */
+     */
     boolean save() default true;
 
 }
