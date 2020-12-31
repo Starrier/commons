@@ -1,5 +1,7 @@
 # Commons
 
+[![Build Status](https://travis-ci.org/Starrier/commons.svg?branch=master)](https://travis-ci.org/Starrier/commons)
+
 > 通用工具类
 
 ## 一. Annotation
