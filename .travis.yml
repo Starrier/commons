@@ -11,8 +11,10 @@ before_install:
 
 script:
   - mvn clean package -DskipTests=true
+  - mvn cobertura:cobertura
 
 after_success:
+  - bash <(curl -s https://codecov.io/bash)
   - cd ./target
   - git init
   - git config user.name "Starrier"
