@@ -1,11 +1,11 @@
 package org.starrier.common.validation;
 
-import org.springframework.util.StringUtils;
+
+import org.apache.commons.lang3.StringUtils;
 import org.starrier.common.utils.ValidatorUtil;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.lang.annotation.Annotation;
 
 /**
  * @author Starrier
@@ -26,7 +26,7 @@ public class IsMobileValidator implements ConstraintValidator<IsMobile, String> 
         if (required) {
             return ValidatorUtil.isMobile(value);
         } else {
-            if (StringUtils.isEmpty(value)) {
+            if (StringUtils.isBlank(value)) {
                 return true;
             } else {
                 return ValidatorUtil.isMobile(value);

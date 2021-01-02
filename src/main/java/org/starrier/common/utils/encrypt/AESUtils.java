@@ -15,7 +15,7 @@ import java.util.Base64;
  */
 public class AESUtils {
 
-    private static final String SEED = "coupon.restful";
+    private static final String SEED = "custom.ase.key";
     private static final String ALGORITHM = "AES";
 
     /**
