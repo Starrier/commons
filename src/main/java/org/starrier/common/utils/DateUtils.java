@@ -333,10 +333,8 @@ public class DateUtils implements Converter<String, Date> {
      * @return {@link Timestamp}
      */
     public static Timestamp getCurrentDayStartTime() {
-        //当前时间毫秒数
-        long current = System.currentTimeMillis();
         //当日零点零分零秒的毫秒数
-        long zero = current / (1000 * 3600 * 24) * (1000 * 3600 * 24) - TimeZone.getDefault().getRawOffset();
+        long zero = todayZeroTime();
         return new Timestamp(zero);
     }
 
@@ -346,12 +344,18 @@ public class DateUtils implements Converter<String, Date> {
      * @return {@link Timestamp}
      */
     public static Timestamp getCurrentDayEndTime() {
-        //当前时间毫秒数
-        long current = System.currentTimeMillis();
-        //今天零点零分零秒的毫秒数
-        long zero = current / (1000 * 3600 * 24) * (1000 * 3600 * 24) - TimeZone.getDefault().getRawOffset();
+        long zero = todayZeroTime();
         //今天23点59分59秒的毫秒数
         long twelve = zero + 24 * 60 * 60 * 1000 - 1;
         return new Timestamp(twelve);
+    }
+
+    /**
+     * 今天零点零分零秒的毫秒数
+     *
+     * @return 今天零点零分零秒的毫秒数
+     */
+    private static long todayZeroTime(){
+       return  System.currentTimeMillis() / (1000 * 3600 * 24) * (1000 * 3600 * 24) - TimeZone.getDefault().getRawOffset();
     }
 }

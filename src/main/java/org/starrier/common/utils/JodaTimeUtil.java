@@ -1,6 +1,7 @@
 package org.starrier.common.utils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.Contract;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -25,7 +26,11 @@ public class JodaTimeUtil {
      * @param date
      * @return
      */
+    @Contract("null -> null")
     public static String dateToStr(Date date) {
+        if (date == null) {
+            return null;
+        }
         return dateToStr(date, STANDARD_FORMAT);
     }
 
@@ -201,10 +206,10 @@ public class JodaTimeUtil {
      * @return
      */
     private static Date plusOrMinusMinutes(Date date, int minutes, Integer type) {
-        if (null == date) {
+
+        if (date == null) {
             return null;
         }
-
         DateTime dateTime = new DateTime(date);
         if (type == 0) {
             dateTime = dateTime.plusMinutes(minutes);
@@ -213,6 +218,11 @@ public class JodaTimeUtil {
         }
 
         return dateTime.toDate();
+    }
+
+    public static void main(String[] args) {
+        Date date = plusOrMinusMinutes(null, 1, new Integer(2));
+        System.out.println(date);
     }
 
     /**
