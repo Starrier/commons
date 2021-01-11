@@ -67,14 +67,6 @@ public enum ResultCode {
         this.message = message;
     }
 
-    public Integer code() {
-        return this.code;
-    }
-
-    public String message() {
-        return this.message;
-    }
-
     public static String getMessage(String name) {
         for (ResultCode item : ResultCode.values()) {
             if (item.name().equals(name)) {
@@ -91,6 +83,14 @@ public enum ResultCode {
             }
         }
         return null;
+    }
+
+    public Integer code() {
+        return this.code;
+    }
+
+    public String message() {
+        return this.message;
     }
 
     @Override

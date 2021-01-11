@@ -1,7 +1,6 @@
 package org.starrier.common.utils;
 
 import com.alibaba.fastjson.JSONObject;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 import parquet.org.slf4j.Logger;

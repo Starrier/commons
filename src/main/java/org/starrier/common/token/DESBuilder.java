@@ -1,13 +1,10 @@
 package org.starrier.common.token;
 
-import lombok.Cleanup;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.SneakyThrows;
 import org.apache.commons.codec.binary.Base64;
 
 import javax.crypto.KeyGenerator;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;

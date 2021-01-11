@@ -18,6 +18,6 @@ class IsMobileValidatorTest {
     @DisplayName("mobilePhone param validate")
     void isValid() {
 
-        String  mobilePhone = "12234567889";
+        String mobilePhone = "12234567889";
     }
 }

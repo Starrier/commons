@@ -1,10 +1,10 @@
-package org.starrier.common.utils;
-
-import java.util.List;
-import java.util.Map;
+package org.starrier.common.utils.json;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author imperator
