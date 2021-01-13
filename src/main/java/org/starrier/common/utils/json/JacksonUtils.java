@@ -4,9 +4,10 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.MapUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
+import parquet.org.slf4j.Logger;
+import parquet.org.slf4j.LoggerFactory;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -17,8 +18,9 @@ import java.util.function.Supplier;
  * @author starrier
  * @date 2021/1/11
  */
-@Slf4j
 public class JacksonUtils {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(JacksonUtils.class);
 
     // 加载速度太慢了，放在静态代码块中
     // private static final ObjectMapper mapper = new ObjectMapper();
@@ -67,7 +69,7 @@ public class JacksonUtils {
             }
             return mapper.writeValueAsString(obj);
         } catch (Throwable e) {
-            log.error(String.format("toJSONString %s", obj != null ? obj.toString() : "null"), e);
+            LOGGER.error(String.format("toJSONString %s", obj != null ? obj.toString() : "null"), e);
         }
         return defaultSupplier.get();
     }
@@ -87,7 +89,7 @@ public class JacksonUtils {
             }
             return mapper.readValue(value, tClass);
         } catch (Throwable e) {
-            log.error(String.format("toJavaObject exception: \n %s\n %s", value, tClass), e);
+            LOGGER.error(String.format("toJavaObject exception: \n %s\n %s", value, tClass), e);
         }
         return defaultSupplier.get();
     }
@@ -108,7 +110,7 @@ public class JacksonUtils {
             JavaType javaType = mapper.getTypeFactory().constructParametricType(List.class, tClass);
             return mapper.readValue(value, javaType);
         } catch (Throwable e) {
-            log.error(String.format("toJavaObjectList exception \n%s\n%s", value, tClass), e);
+            LOGGER.error(String.format("toJavaObjectList exception \n%s\n%s", value, tClass), e);
         }
         return defaultSupplier.get();
     }
@@ -135,7 +137,7 @@ public class JacksonUtils {
                 return (Map<String, Object>) value;
             }
         } catch (Exception e) {
-            log.info("fail to convert" + toJSONString(value), e);
+            LOGGER.info("fail to convert" + toJSONString(value), e);
         }
         return toMap(toJSONString(value), defaultSupplier);
     }
@@ -147,7 +149,7 @@ public class JacksonUtils {
         try {
             return toJavaObject(value, LinkedHashMap.class);
         } catch (Exception e) {
-            log.error(String.format("toMap exception\n%s", value), e);
+            LOGGER.error(String.format("toMap exception\n%s", value), e);
         }
         return defaultSupplier.get();
     }
@@ -168,10 +170,11 @@ public class JacksonUtils {
         try {
             return toJavaObject(value, List.class);
         } catch (Exception e) {
-            log.error("toList exception\n" + value, e);
+            LOGGER.error("toList exception\n" + value, e);
         }
         return defaultSuppler.get();
     }
+
     public static List<Object> toList(Object value, Supplier<List<Object>> defaultSuppler) {
         if (value == null) {
             return defaultSuppler.get();
