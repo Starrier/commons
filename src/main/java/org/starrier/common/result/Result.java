@@ -1,10 +1,8 @@
 package org.starrier.common.result;
 
 import com.google.common.collect.Maps;
-import com.google.gson.annotations.SerializedName;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -40,28 +38,16 @@ public class Result implements Serializable {
 
     private Object data;
 
-    public Integer getCode() {
-        return code;
-    }
-
-    private void setData(Object data) {
-        this.data = data;
-    }
-
     public Result(Integer errorCode, String errMessage) {
         this.code = errorCode;
         this.message = errMessage;
     }
 
-    public void setResultCode(ResultCode code) {
-        this.code = code.code();
-        this.message = code.message();
-    }
-
-    public Map<String, Object> simple() {
-        Map<String, Object> simple = Maps.newHashMapWithExpectedSize(5);
-        this.data = simple;
-        return simple;
+    private Result(Builder builder) {
+        this.code = builder.code;
+        this.data = builder.data;
+        this.message = builder.message;
+        this.url = builder.url;
     }
 
     public static Result success() {
@@ -83,7 +69,7 @@ public class Result implements Serializable {
         return result;
     }
 
-    public static Result success(Object data,String message){
+    public static Result success(Object data, String message) {
         Result result = new Result();
         result.setData(data);
         result.setMessage(message);
@@ -114,11 +100,23 @@ public class Result implements Serializable {
         return new Builder();
     }
 
-    private Result(Builder builder) {
-        this.code = builder.code;
-        this.data = builder.data;
-        this.message = builder.message;
-        this.url = builder.url;
+    public Integer getCode() {
+        return code;
+    }
+
+    private void setData(Object data) {
+        this.data = data;
+    }
+
+    public void setResultCode(ResultCode code) {
+        this.code = code.code();
+        this.message = code.message();
+    }
+
+    public Map<String, Object> simple() {
+        Map<String, Object> simple = Maps.newHashMapWithExpectedSize(5);
+        this.data = simple;
+        return simple;
     }
 
     @ToString

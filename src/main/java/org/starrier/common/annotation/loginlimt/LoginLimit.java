@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * @date 2020/12/31
  */
 @Documented
-@Target({ElementType.METHOD,ElementType.ANNOTATION_TYPE})
+@Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 public @interface LoginLimit {
 
     /**
@@ -31,6 +31,6 @@ public @interface LoginLimit {
     /**
      * 错误的尝试次数
      */
-    int times() default  5;
+    int times() default 5;
 
 }

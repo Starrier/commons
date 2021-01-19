@@ -1,7 +1,6 @@
 package org.starrier.common.utils;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.HashMap;
@@ -32,6 +31,10 @@ public class SensitiveWordUtil {
      */
     public static Map sensitiveWordMap;
 
+    private SensitiveWordUtil() {
+        init(null);
+    }
+
     /**
      * 初始化敏感词库，构建DFA算法模型
      *
@@ -47,10 +50,6 @@ public class SensitiveWordUtil {
         sensitiveWordSet.add("感动");
         sensitiveWordSet.add("发呆");
         initSensitiveWordMap(sensitiveWordSet);
-    }
-
-    private SensitiveWordUtil() {
-        init(null);
     }
 
     /**

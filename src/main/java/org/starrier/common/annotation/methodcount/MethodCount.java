@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * @date 2021/1/4
  */
 @Documented
-@Target({ElementType.METHOD,ElementType.TYPE})
+@Target({ElementType.METHOD, ElementType.TYPE})
 public @interface MethodCount {
 
 
