@@ -3,7 +3,6 @@ package org.starrier.common.utils.encrypt;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.starrier.common.utils.encrypt.AESUtils.decrypt;
 import static org.starrier.common.utils.encrypt.AESUtils.encrypt;
 

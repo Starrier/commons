@@ -11,11 +11,6 @@ import java.util.concurrent.TimeUnit;
  * @date 2019-09-10
  */
 public class ScheduleUtil {
-    /*该接口定义了线程的名字，用于管理，如判断是否存活，是否停止该线程等等*/
-    public interface SRunnable extends Runnable {
-        String getName();
-    }
-
     private static HashMap<String, ScheduledFuture> map = new HashMap<>();
     private static ScheduledExecutorService pool;
 
@@ -74,5 +69,10 @@ public class ScheduleUtil {
             return !map.get(sr.getName()).isDone();
         }
         return false;
+    }
+
+    /*该接口定义了线程的名字，用于管理，如判断是否存活，是否停止该线程等等*/
+    public interface SRunnable extends Runnable {
+        String getName();
     }
 }

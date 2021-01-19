@@ -30,13 +30,17 @@ import static org.starrier.common.constant.DataConstant.DATE_FORMAT_DEFAULT;
  */
 public class DateUtils implements Converter<String, Date> {
 
+    public static final String FULL_TIME_PATTERN = "yyyyMMddHHmmss";
+    public static final String FULL_TIME_SPLIT_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    public static final String CST_TIME_PATTERN = "EEE MMM dd HH:mm:ss zzz yyyy";
     private static final List<String> FOR_MARTS = Lists.newArrayListWithExpectedSize(FOUR);
 
-    public static final String FULL_TIME_PATTERN = "yyyyMMddHHmmss";
-
-    public static final String FULL_TIME_SPLIT_PATTERN = "yyyy-MM-dd HH:mm:ss";
-
-    public static final String CST_TIME_PATTERN = "EEE MMM dd HH:mm:ss zzz yyyy";
+    static {
+        FOR_MARTS.add("yyyy-MM");
+        FOR_MARTS.add("yyyy-MM-dd");
+        FOR_MARTS.add("yyyy-MM-dd hh:mm");
+        FOR_MARTS.add("yyyy-MM-dd hh:mm:ss");
+    }
 
     /**
      * 格式化时间，格式为 yyyyMMddHHmmss
@@ -286,47 +290,6 @@ public class DateUtils implements Converter<String, Date> {
         }
     }
 
-
-    static {
-        FOR_MARTS.add("yyyy-MM");
-        FOR_MARTS.add("yyyy-MM-dd");
-        FOR_MARTS.add("yyyy-MM-dd hh:mm");
-        FOR_MARTS.add("yyyy-MM-dd hh:mm:ss");
-    }
-
-    @Override
-    public Date convert(String source) {
-        String value = source.trim();
-        if (StringUtils.EMPTY.equals(value)) {
-            return null;
-        }
-        if (source.matches("^\\d{4}-\\d{1,2}$")) {
-            return parseDate(source, FOR_MARTS.get(0));
-        } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2}$")) {
-            return parseDate(source, FOR_MARTS.get(1));
-        } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}$")) {
-            return parseDate(source, FOR_MARTS.get(2));
-        } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}:\\d{1,2}$")) {
-            return parseDate(source, FOR_MARTS.get(3));
-        } else {
-            throw new IllegalArgumentException("Invalid boolean value '" + source + "'");
-        }
-    }
-
-
-    /**
-     * 格式化日期
-     *
-     * @param dateStr String 字符型日期
-     * @param format  String 格式
-     * @return Date 日期
-     */
-    @SneakyThrows(Exception.class)
-    public Date parseDate(String dateStr, String format) {
-        DateFormat dateFormat = new SimpleDateFormat(format);
-        return dateFormat.parse(dateStr);
-    }
-
     /**
      * 根据时间戳，获取当天凌晨时间  2019-10-18 00:00:00.0
      *
@@ -355,7 +318,39 @@ public class DateUtils implements Converter<String, Date> {
      *
      * @return 今天零点零分零秒的毫秒数
      */
-    private static long todayZeroTime(){
-       return  System.currentTimeMillis() / (1000 * 3600 * 24) * (1000 * 3600 * 24) - TimeZone.getDefault().getRawOffset();
+    private static long todayZeroTime() {
+        return System.currentTimeMillis() / (1000 * 3600 * 24) * (1000 * 3600 * 24) - TimeZone.getDefault().getRawOffset();
+    }
+
+    @Override
+    public Date convert(String source) {
+        String value = source.trim();
+        if (StringUtils.EMPTY.equals(value)) {
+            return null;
+        }
+        if (source.matches("^\\d{4}-\\d{1,2}$")) {
+            return parseDate(source, FOR_MARTS.get(0));
+        } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2}$")) {
+            return parseDate(source, FOR_MARTS.get(1));
+        } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}$")) {
+            return parseDate(source, FOR_MARTS.get(2));
+        } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}:\\d{1,2}$")) {
+            return parseDate(source, FOR_MARTS.get(3));
+        } else {
+            throw new IllegalArgumentException("Invalid boolean value '" + source + "'");
+        }
+    }
+
+    /**
+     * 格式化日期
+     *
+     * @param dateStr String 字符型日期
+     * @param format  String 格式
+     * @return Date 日期
+     */
+    @SneakyThrows(Exception.class)
+    public Date parseDate(String dateStr, String format) {
+        DateFormat dateFormat = new SimpleDateFormat(format);
+        return dateFormat.parse(dateStr);
     }
 }

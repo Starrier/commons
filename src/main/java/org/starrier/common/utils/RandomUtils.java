@@ -1,7 +1,6 @@
 package org.starrier.common.utils;
 
 import java.util.Random;
-import java.util.stream.IntStream;
 
 /**
  * @author Starrier
