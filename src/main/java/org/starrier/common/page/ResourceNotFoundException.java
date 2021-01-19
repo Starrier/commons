@@ -1,17 +1,11 @@
 package org.starrier.common.page;
 
-import lombok.AllArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.Accessors;
 import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Starrier
  * @date 2018/6/5.
  */
-@Setter
-@Accessors(chain = true)
-@AllArgsConstructor
 public class ResourceNotFoundException extends RuntimeException {
 
     private static final long serialVersionUID = -2565431806475335331L;
@@ -19,6 +13,11 @@ public class ResourceNotFoundException extends RuntimeException {
     private final String resourceName;
 
     private final Long id;
+
+    public ResourceNotFoundException(String resourceName, Long id) {
+        this.resourceName = resourceName;
+        this.id = id;
+    }
 
     @Override
     public String getMessage() {

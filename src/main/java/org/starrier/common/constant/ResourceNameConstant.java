@@ -1,15 +1,9 @@
 package org.starrier.common.constant;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 /**
  * @author Starrier
  * @date 2018/6/5.
  */
-@Getter
-@Setter
 public class ResourceNameConstant {
 
     public static final String BOOK = "book";
@@ -26,4 +20,15 @@ public class ResourceNameConstant {
     private ResourceNameConstant() {
     }
 
+    public static String getBOOK() {
+        return BOOK;
+    }
+
+    public static String getARTICLE() {
+        return ARTICLE;
+    }
+
+    public static String getCOMMENT() {
+        return COMMENT;
+    }
 }

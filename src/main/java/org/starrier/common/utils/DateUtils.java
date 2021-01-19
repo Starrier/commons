@@ -1,7 +1,6 @@
 package org.starrier.common.utils;
 
 import com.google.common.collect.Lists;
-import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.core.convert.converter.Converter;
@@ -112,10 +111,10 @@ public class DateUtils implements Converter<String, Date> {
     }
 
     /**
-     * @param date
+     * @param date 字符串日期
      * @param num
      * @param format
-     * @return
+     * @return 字符串日期
      */
     public static String getDay(String date, int num, String format) {
         return getDay(parseStringToLong(date), num, DATE_FORMAT_DEFAULT);
@@ -124,9 +123,9 @@ public class DateUtils implements Converter<String, Date> {
     /**
      * 获取指定日期前后num天的日期
      *
-     * @param date
-     * @param num
-     * @return
+     * @param date 毫秒数
+     * @param num 指定距今的天数
+     * @return 字符串日期
      */
     public static String getDay(long date, int num) {
         return getDay(date, num, DATE_FORMAT_DEFAULT);
@@ -202,12 +201,14 @@ public class DateUtils implements Converter<String, Date> {
     }
 
     /**
+     *
+     * 2017年10月6日 下午5:58:58
      * 获取指定日期结束时间
      *
-     * @param date
-     * @return
+     * @param date 时间
+     * @return 毫秒数
      * @author yangwenkui
-     * @time 2017年10月6日 下午5:58:58
+     *
      */
     public static long getDayEndTime(String date) {
         Calendar cal = Calendar.getInstance();
@@ -323,22 +324,37 @@ public class DateUtils implements Converter<String, Date> {
     }
 
     @Override
-    public Date convert(String source) {
+    public Date convert(String source)  {
         String value = source.trim();
         if (StringUtils.EMPTY.equals(value)) {
             return null;
         }
         if (source.matches("^\\d{4}-\\d{1,2}$")) {
-            return parseDate(source, FOR_MARTS.get(0));
+            try {
+                return parseDate(source, FOR_MARTS.get(0));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2}$")) {
-            return parseDate(source, FOR_MARTS.get(1));
-        } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}$")) {
-            return parseDate(source, FOR_MARTS.get(2));
-        } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}:\\d{1,2}$")) {
-            return parseDate(source, FOR_MARTS.get(3));
-        } else {
-            throw new IllegalArgumentException("Invalid boolean value '" + source + "'");
+            try {
+                return parseDate(source, FOR_MARTS.get(1));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2} \\d{1,2}:\\d{1,2}$")) {
+            try {
+                return parseDate(source, FOR_MARTS.get(2));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2} \\d{1,2}:\\d{1,2}:\\d{1,2}$")) {
+            try {
+                return parseDate(source, FOR_MARTS.get(3));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
+        throw new IllegalArgumentException("Invalid boolean value '" + source + "'");
     }
 
     /**
@@ -348,8 +364,7 @@ public class DateUtils implements Converter<String, Date> {
      * @param format  String 格式
      * @return Date 日期
      */
-    @SneakyThrows(Exception.class)
-    public Date parseDate(String dateStr, String format) {
+    public Date parseDate(String dateStr, String format) throws ParseException {
         DateFormat dateFormat = new SimpleDateFormat(format);
         return dateFormat.parse(dateStr);
     }
