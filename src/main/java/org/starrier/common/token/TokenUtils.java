@@ -4,8 +4,10 @@ import com.google.common.collect.Maps;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.NonNull;
 
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
@@ -28,7 +30,8 @@ public class TokenUtils {
      * @param claims
      * @return
      */
-    public static String generateToken(Map<String, Object> claims) {
+    public static String generateToken(Map<String, Object> claims) throws InvalidKeySpecException, InvalidKeyException,
+            NoSuchAlgorithmException {
         return Jwts.builder()
                 .setClaims(claims)
                 .setExpiration(new Date(System.currentTimeMillis() + 30000L))
@@ -42,7 +45,8 @@ public class TokenUtils {
      * @param token 要解析的token信息
      * @return
      */
-    private static Optional<Claims> getClaimsFromToken(String token) {
+    private static Optional<Claims> getClaimsFromToken(String token) throws InvalidKeySpecException, InvalidKeyException,
+            NoSuchAlgorithmException {
         return Optional.ofNullable(Jwts.parser()
                 .setSigningKey(new DESCoder().toKey(SECRET))
                 .parseClaimsJws(token)
@@ -66,12 +70,13 @@ public class TokenUtils {
      * @param token 要解析的token信息
      * @return
      */
-    private static Map<String, Object> extractInfo(String token) {
+    private static Map<String, Object> extractInfo(String token) throws InvalidKeySpecException, InvalidKeyException,
+            NoSuchAlgorithmException {
         Optional<Claims> claims = getClaimsFromToken(token);
         if (claims.isPresent()) {
             Set<String> keySet = claims.get().keySet();
             Map<String, Object> info = Maps.newHashMapWithExpectedSize(keySet.size());
-            keySet.forEach((@NonNull String key) -> info.put(key, claims.get().get(key)));
+            keySet.forEach(key -> info.put(key, claims.get().get(key)));
             return info;
         }
         return Collections.emptyMap();

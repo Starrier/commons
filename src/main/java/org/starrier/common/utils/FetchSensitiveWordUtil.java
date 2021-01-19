@@ -1,13 +1,12 @@
 package org.starrier.common.utils;
 
 import com.google.common.collect.Maps;
-import lombok.Cleanup;
-import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -24,8 +23,7 @@ public class FetchSensitiveWordUtil {
      * @param filePath {@link String}
      * @return {@link Map<Integer,String> }
      */
-    @SneakyThrows(IOException.class)
-    public Map<Integer, String> fetchSensitiveWords(final String filePath) {
+    public Map<Integer, String> fetchSensitiveWords(final String filePath) throws IOException {
 
         Map<Integer, String> wordsMaps = Maps.newHashMap();
         File file = new File(filePath);
@@ -34,8 +32,8 @@ public class FetchSensitiveWordUtil {
             return new HashMap<>();
         }
 
-        @Cleanup InputStreamReader reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
-        @Cleanup BufferedReader bufferedReader = new BufferedReader(reader);
+       InputStreamReader reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
+        BufferedReader bufferedReader = new BufferedReader(reader);
 
         String lineText = null;
         while ((lineText = bufferedReader.readLine()) != null) {

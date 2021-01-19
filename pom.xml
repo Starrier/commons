@@ -11,7 +11,7 @@
 
     <groupId>org.starrier</groupId>
     <artifactId>commons</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2-SNAPSHOT</version>
 
     <name>${project.groupId}:${project.artifactId}</name>
     <description>common for Starrier</description>
@@ -39,7 +39,7 @@
     <developers>
         <developer>
             <name>Starriers</name>
-            <email>starriers@starriers.org</email>
+            <email>starriers@starrier.org</email>
             <organization>Starrier</organization>
             <organizationUrl>https://github.com/Starrier</organizationUrl>
         </developer>
@@ -160,7 +160,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.encoding>UTF-8</project.encoding>
         <spring.boot.version>2.1.4.RELEASE</spring.boot.version>
-        <lombok.version>1.18.16</lombok.version>
         <commons.lang3.version>3.8.1</commons.lang3.version>
         <commons.codec.version>1.11</commons.codec.version>
         <jjwt.version>0.9.1</jjwt.version>
@@ -185,11 +184,6 @@
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>annotations</artifactId>
             <version>2.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>
@@ -329,12 +323,6 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons.lang3.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <optional>true</optional>
-                <version>1.18.16</version>
             </dependency>
             <dependency>
                 <groupId>com.google.guava</groupId>

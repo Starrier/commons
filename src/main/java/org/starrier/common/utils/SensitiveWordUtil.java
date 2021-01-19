@@ -1,8 +1,5 @@
 package org.starrier.common.utils;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -22,8 +19,6 @@ import static org.starrier.common.constant.Constant.ZERO;
  * <p>
  * Description :
  */
-@Getter
-@Setter
 public class SensitiveWordUtil {
 
     /**
@@ -282,5 +277,7 @@ public class SensitiveWordUtil {
         }
         return matchFlag;
     }
+
+
 }
 

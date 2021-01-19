@@ -1,16 +1,10 @@
 package org.starrier.common.result;
 
 import com.google.common.collect.Maps;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * <p>Api Response Code Wrapper</p>
@@ -20,12 +14,6 @@ import java.util.Map;
  * @date 2018/11/11.
  * @see Result is the enhanced and custom version of  response.
  */
-@Accessors(chain = true)
-@Setter
-@Getter
-@ToString
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Result implements Serializable {
 
     private static final long serialVersionUID = -1709587390161841001L;
@@ -38,6 +26,8 @@ public class Result implements Serializable {
 
     private Object data;
 
+    private Result(){
+    }
     public Result(Integer errorCode, String errMessage) {
         this.code = errorCode;
         this.message = errMessage;
@@ -48,6 +38,13 @@ public class Result implements Serializable {
         this.data = builder.data;
         this.message = builder.message;
         this.url = builder.url;
+    }
+
+    public Result(Integer code, String message, String url, Object data) {
+        this.code = code;
+        this.message = message;
+        this.url = url;
+        this.data = data;
     }
 
     public static Result success() {
@@ -100,6 +97,26 @@ public class Result implements Serializable {
         return new Builder();
     }
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    private void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
     public Integer getCode() {
         return code;
     }
@@ -119,7 +136,23 @@ public class Result implements Serializable {
         return simple;
     }
 
-    @ToString
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Result result = (Result) o;
+        return code.equals(result.code) &&
+                message.equals(result.message) &&
+                url.equals(result.url) &&
+                data.equals(result.data);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(code, message, url, data);
+    }
+
+
     public static class Builder {
         private Integer code;
         private String message;
@@ -148,6 +181,16 @@ public class Result implements Serializable {
 
         public Result build() {
             return new Result(this);
+        }
+
+        @Override
+        public String toString() {
+            return "Builder{" +
+                    "code=" + code +
+                    ", message='" + message + '\'' +
+                    ", url='" + url + '\'' +
+                    ", data=" + data +
+                    '}';
         }
     }
 }
