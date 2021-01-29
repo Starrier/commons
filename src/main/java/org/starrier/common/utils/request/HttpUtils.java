@@ -1,4 +1,4 @@
-package org.starrier.common.utils;
+package org.starrier.common.utils.request;
 
 import com.google.common.collect.Maps;
 import org.springframework.web.context.request.RequestContextHolder;
