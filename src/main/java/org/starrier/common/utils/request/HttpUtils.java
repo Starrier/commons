@@ -1,4 +1,4 @@
-package org.starrier.common.utils;
+package org.starrier.common.utils.request;
 
 import com.google.common.collect.Maps;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -58,23 +58,19 @@ public class HttpUtils {
      * @return ip地址
      */
     public static String getIpAddress(HttpServletRequest request) {
-        String ip = request.getHeader(X_FORWARDED_FOR);
+
+        String ip = null;
+
+        ip = getIpAddress(request,ip,X_FORWARDED_FOR);
+
         if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
-            if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
-                ip = request.getHeader(PROXY_CLIENT_IP);
-            }
-            if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
-                ip = request.getHeader(WL_PROXY_CLIENT_IP);
-            }
-            if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
-                ip = request.getHeader(HTTP_CLIENT_IP);
-            }
-            if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
-                ip = request.getHeader(HTTP_X_FORWARDED_FOR);
-            }
-            if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
-                ip = request.getRemoteAddr();
-            }
+
+            ip = getIpAddress(request, ip, PROXY_CLIENT_IP);
+            ip = getIpAddress(request, ip, WL_PROXY_CLIENT_IP);
+            ip = getIpAddress(request, ip, HTTP_X_FORWARDED_FOR);
+            ip = getIpAddress(request, ip, HTTP_CLIENT_IP);
+            ip = getIpAddress(request, ip, request.getRemoteAddr());
+
         } else if (ip.length() > 15) {
             String[] ips = POINT.split(ip);
             for (String s : ips) {
@@ -83,6 +79,13 @@ public class HttpUtils {
                     break;
                 }
             }
+        }
+        return ip;
+    }
+
+    private static String getIpAddress(HttpServletRequest request, String ip, String proxyClientIp) {
+        if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getHeader(proxyClientIp);
         }
         return ip;
     }
