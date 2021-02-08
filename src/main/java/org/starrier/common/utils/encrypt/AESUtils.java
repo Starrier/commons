@@ -10,9 +10,20 @@ import java.security.SecureRandom;
 import java.util.Base64;
 
 /**
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
  * @author starrier
  * @date 2020/12/28
+ * @since 0.0.1
  */
+@Deprecated
 public class AESUtils {
 
     private static final String SEED = "custom.ase.key";
