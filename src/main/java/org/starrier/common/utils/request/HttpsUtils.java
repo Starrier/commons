@@ -30,11 +30,11 @@ public class HttpsUtils {
      */
     public static String sendPostWithJson(String url, String json) throws IOException {
 
-        String result = "";
+        String result;
         HttpPost post = new HttpPost(url);
 
         // send a JSON data
-        post.setEntity(new StringEntity(json.toString()));
+        post.setEntity(new StringEntity(json));
 
         try (CloseableHttpClient httpClient = HttpClients.createDefault();
              CloseableHttpResponse response = httpClient.execute(post)) {
@@ -79,20 +79,29 @@ public class HttpsUtils {
 
     }
 
+    /**
+     *
+     * add request parameters or form parameters
+     * <blockquote><pre>
+     *         List<NameValuePair> urlParameters = new ArrayList<>();
+     *         urlParameters.add(new BasicNameValuePair("username", "abc"));
+     *         urlParameters.add(new BasicNameValuePair("password", "123"));
+     *         urlParameters.add(new BasicNameValuePair("custom", "secret"));
+     *
+     *         post.setEntity(new UrlEncodedFormEntity(urlParameters));
+     * </pre></blockquote>
+     * @param url
+     * @return
+     * @throws IOException
+     */
     public static String sendPost(String url) throws IOException {
 
-        String result = "";
-        HttpPost post = new HttpPost(url);
-/*
-        // add request parameters or form parameters
-        List<NameValuePair> urlParameters = new ArrayList<>();
-        urlParameters.add(new BasicNameValuePair("username", "abc"));
-        urlParameters.add(new BasicNameValuePair("password", "123"));
-        urlParameters.add(new BasicNameValuePair("custom", "secret"));
+        String result;
 
-        post.setEntity(new UrlEncodedFormEntity(urlParameters));*/
+        HttpPost post = new HttpPost(url);
 
         try (CloseableHttpClient httpClient = HttpClients.createDefault();
+
              CloseableHttpResponse response = httpClient.execute(post)){
 
             result = EntityUtils.toString(response.getEntity());
