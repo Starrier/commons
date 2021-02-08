@@ -126,28 +126,28 @@ public class ReactiveResult {
         return simple;
     }
 
-    public static class Builder {
+    private static class Builder {
         private Integer code;
         private String message;
         private String url;
         private Object data;
 
-        public ReactiveResult.Builder code(Integer code) {
+        public Builder code(Integer code) {
             this.code = code;
             return this;
         }
 
-        public ReactiveResult.Builder data(Object data) {
+        public Builder data(Object data) {
             this.data = data;
             return this;
         }
 
-        public ReactiveResult.Builder message(String message) {
+        public Builder message(String message) {
             this.message = message;
             return this;
         }
 
-        public ReactiveResult.Builder url(String url) {
+        public Builder url(String url) {
             this.url = url;
             return this;
         }

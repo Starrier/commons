@@ -130,7 +130,7 @@ public class Result implements Serializable {
         return simple;
     }
 
-    public static class Builder {
+    private static class Builder {
         private Integer code;
         private String message;
         private String url;

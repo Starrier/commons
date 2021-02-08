@@ -326,7 +326,7 @@ public class DateUtils implements Converter<String, Date> {
     public Date convert(String source) {
         String value = source.trim();
         if (StringUtils.EMPTY.equals(value)) {
-            return null;
+            return new Date();
         }
         try {
             if (source.matches("^\\d{4}-\\d{1,2}$")) {
@@ -340,7 +340,7 @@ public class DateUtils implements Converter<String, Date> {
             }
             throw new IllegalArgumentException("Invalid boolean value '" + source + "'");
         } catch (ParseException e) {
-            return null;
+            return new Date();
         }
 
     }
