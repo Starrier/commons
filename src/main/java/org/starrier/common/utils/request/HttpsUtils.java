@@ -10,6 +10,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.apache.logging.log4j.util.Strings;
 
 import java.io.IOException;
 import java.util.Map;
@@ -30,7 +31,6 @@ public class HttpsUtils {
      */
     public static String sendPostWithJson(String url, String json) throws IOException {
 
-        String result;
         HttpPost post = new HttpPost(url);
 
         // send a JSON data
@@ -38,10 +38,9 @@ public class HttpsUtils {
 
         try (CloseableHttpClient httpClient = HttpClients.createDefault();
              CloseableHttpResponse response = httpClient.execute(post)) {
-            result = EntityUtils.toString(response.getEntity());
+            return EntityUtils.toString(response.getEntity());
         }
 
-        return result;
     }
 
     /**
@@ -53,11 +52,10 @@ public class HttpsUtils {
      */
     public static String sendGetWithHeader(String url, Map<String, String> headers) throws IOException {
 
-        String result = "";
         HttpGet request = new HttpGet(url);
+
         try (CloseableHttpClient httpClient = HttpClients.createDefault();
              CloseableHttpResponse response = httpClient.execute(request)) {
-
 
             // add request headers
             if (MapUtils.isNotEmpty(headers)) {
@@ -70,12 +68,11 @@ public class HttpsUtils {
 
             HttpEntity entity = response.getEntity();
             if (entity != null) {
-                // return it as a String
-                result = EntityUtils.toString(entity);
+                return EntityUtils.toString(entity);
             }
-        }
 
-        return result;
+            return Strings.EMPTY;
+        }
 
     }
 
@@ -96,18 +93,14 @@ public class HttpsUtils {
      */
     public static String sendPost(String url) throws IOException {
 
-        String result;
-
         HttpPost post = new HttpPost(url);
 
         try (CloseableHttpClient httpClient = HttpClients.createDefault();
 
              CloseableHttpResponse response = httpClient.execute(post)){
 
-            result = EntityUtils.toString(response.getEntity());
+           return EntityUtils.toString(response.getEntity());
         }
-
-        return result;
 
     }
 }
