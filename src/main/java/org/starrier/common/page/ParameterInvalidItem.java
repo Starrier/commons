@@ -1,8 +1,5 @@
 package org.starrier.common.page;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.io.Serializable;
 
@@ -12,13 +9,26 @@ import java.io.Serializable;
  * @author Starrier
  * @date 2019/1/31.
  */
-@Getter
-@Setter
-@NoArgsConstructor
 public class ParameterInvalidItem implements Serializable {
 
     private String fieldName;
 
     private String message;
+
+    public String getFieldName() {
+        return fieldName;
+    }
+
+    public void setFieldName(String fieldName) {
+        this.fieldName = fieldName;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
 }

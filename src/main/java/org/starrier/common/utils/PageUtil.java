@@ -1,6 +1,5 @@
 package org.starrier.common.utils;
 
-import lombok.SneakyThrows;
 import org.starrier.common.page.ParameterIllegalException;
 
 /**
@@ -75,7 +74,6 @@ public class PageUtil {
      * @param defaultValue    default value, if parameterString == null
      * @return parsed parameter
      */
-    @SneakyThrows(ParameterIllegalException.class)
     private static int parseParameter(String parameterString, int defaultValue) {
         if (parameterString == null) {
             return defaultValue;

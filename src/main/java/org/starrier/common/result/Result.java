@@ -1,13 +1,6 @@
 package org.starrier.common.result;
 
 import com.google.common.collect.Maps;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -20,12 +13,6 @@ import java.util.Map;
  * @date 2018/11/11.
  * @see Result is the enhanced and custom version of  response.
  */
-@Accessors(chain = true)
-@Setter
-@Getter
-@ToString
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Result implements Serializable {
 
     private static final long serialVersionUID = -1709587390161841001L;
@@ -37,6 +24,10 @@ public class Result implements Serializable {
     private String url;
 
     private Object data;
+
+    private Result() {
+
+    }
 
     public Result(Integer errorCode, String errMessage) {
         this.code = errorCode;
@@ -104,6 +95,26 @@ public class Result implements Serializable {
         return code;
     }
 
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
     private void setData(Object data) {
         this.data = data;
     }
@@ -119,7 +130,6 @@ public class Result implements Serializable {
         return simple;
     }
 
-    @ToString
     public static class Builder {
         private Integer code;
         private String message;
