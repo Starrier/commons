@@ -59,15 +59,17 @@ public class HttpUtils {
      */
     public static String getIpAddress(HttpServletRequest request) {
 
-        String ip = request.getHeader(X_FORWARDED_FOR);
+        String ip = null;
+
+        ip = getIpAddress(request,ip,X_FORWARDED_FOR);
 
         if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
 
-            ip = getIp(request, ip, PROXY_CLIENT_IP);
-            ip = getIp(request, ip, WL_PROXY_CLIENT_IP);
-            ip = getIp(request, ip, HTTP_X_FORWARDED_FOR);
-            ip = getIp(request, ip, HTTP_CLIENT_IP);
-            ip = getIp(request, ip, request.getRemoteAddr());
+            ip = getIpAddress(request, ip, PROXY_CLIENT_IP);
+            ip = getIpAddress(request, ip, WL_PROXY_CLIENT_IP);
+            ip = getIpAddress(request, ip, HTTP_X_FORWARDED_FOR);
+            ip = getIpAddress(request, ip, HTTP_CLIENT_IP);
+            ip = getIpAddress(request, ip, request.getRemoteAddr());
 
         } else if (ip.length() > 15) {
             String[] ips = POINT.split(ip);
@@ -81,7 +83,7 @@ public class HttpUtils {
         return ip;
     }
 
-    private static String getIp(HttpServletRequest request, String ip, String proxyClientIp) {
+    private static String getIpAddress(HttpServletRequest request, String ip, String proxyClientIp) {
         if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
             ip = request.getHeader(proxyClientIp);
         }
