@@ -1,12 +1,14 @@
 package org.starrier.common.utils.datatime;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import static org.starrier.common.constant.DataFormatConstant.YYYY_MM_DD_HH_MM_SS;
+
 public class DateUtils {
 
-    private static final String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
 
     /**
      * 获取上n个小时整点小时时间
@@ -63,6 +65,23 @@ public class DateUtils {
         date = calendar.getTime();
         System.out.println(sdf.format(date));
         return date;
+    }
+
+    /**
+     * Date String format convert to another String format
+     * @param original
+     * @param originalFormat
+     * @param targetFormate
+     * @return
+     * @throws ParseException
+     */
+    public static String stringDateConvert(String original,String originalFormat,String targetFormate)
+         throws ParseException {
+            SimpleDateFormat formatter = new SimpleDateFormat(originalFormat);
+            formatter.setLenient(false);
+            Date newDate= formatter.parse(original);
+            formatter = new SimpleDateFormat(targetFormate);
+            return formatter.format(newDate);
     }
 
 
