@@ -11,5 +11,7 @@ public class DateUtilsTest {
         System.out.println(lastHourTime);
         String lastHourTime1 = DateUtils.getLastHourTime(new Date(), 0);
         System.out.println(lastHourTime1);
+        Date specificDate = DateUtils.getSpecificDate(5);
+        System.out.println(specificDate);
     }
 }
