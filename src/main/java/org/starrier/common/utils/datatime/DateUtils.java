@@ -13,8 +13,8 @@ public class DateUtils {
      *
      * @param date specific date
      *             <blockquote><pre>
-     *                         getLastHourTime(new Date(),0);
-     *                           </pre></blockquote>
+     *                                     getLastHourTime(new Date(),0);
+     *                                       </pre></blockquote>
      * @return datetime String
      * <blockquote>
      * 2020-02-25 14:00:00
@@ -50,6 +50,8 @@ public class DateUtils {
      * 获取指定天数的前几天日期，返回 {@link Date} 类型数据
      *
      * @param specificBeforeDate 指定获取前多少天
+     *                           param < 0 :query before
+     *                           param >0 : query after
      * @return 指定日期的 {@link Date} 类型数据
      */
     public static Date getSpecificDate(Integer specificBeforeDate) {
@@ -57,7 +59,7 @@ public class DateUtils {
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        calendar.add(Calendar.DAY_OF_MONTH, specificBeforeDate);
         date = calendar.getTime();
         System.out.println(sdf.format(date));
         return date;
