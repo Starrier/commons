@@ -1,15 +1,10 @@
 package org.starrier.common.page;
 
 
-import lombok.Getter;
-import lombok.Setter;
-
 /**
  * @author Starrier
  * @date 2018/6/5.
  */
-@Getter
-@Setter
 public class PageConstant {
 
     /**
@@ -22,12 +17,14 @@ public class PageConstant {
      */
     public static final int PER_PAGE = 10;
 
-    /**
-     * Prevent instantiation.
-     * <p>
-     * And if you need expose, {@link lombok.NoArgsConstructor} instead of if.
-     */
     private PageConstant() {
     }
 
+    public static int getPAGE() {
+        return PAGE;
+    }
+
+    public static int getPerPage() {
+        return PER_PAGE;
+    }
 }

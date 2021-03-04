@@ -13,15 +13,15 @@ public enum IdGenerator {
 
     INSTANCE;
 
-    private long workerId;   //用ip地址最后几个字节标示
-    private long datacenterId = 0L; //可配置在properties中,启动时加载,此处默认先写成0
+    private final long workerId;   //用ip地址最后几个字节标示
+    private final long datacenterId = 0L; //可配置在properties中,启动时加载,此处默认先写成0
     private long sequence = 0L;
-    private long workerIdBits = 8L; //节点ID长度
-    private long datacenterIdBits = 2L; //数据中心ID长度,可根据时间情况设定位数
-    private long sequenceBits = 12L; //序列号12位
-    private long workerIdShift = sequenceBits; //机器节点左移12位
-    private long datacenterIdShift = sequenceBits + workerIdBits; //数据中心节点左移14位
-    private long sequenceMask = -1L ^ (-1L << sequenceBits); //4095
+    private final long workerIdBits = 8L; //节点ID长度
+    private final long datacenterIdBits = 2L; //数据中心ID长度,可根据时间情况设定位数
+    private final long sequenceBits = 12L; //序列号12位
+    private final long workerIdShift = sequenceBits; //机器节点左移12位
+    private final long datacenterIdShift = sequenceBits + workerIdBits; //数据中心节点左移14位
+    private final long sequenceMask = -1L ^ (-1L << sequenceBits); //4095
     private long lastTimestamp = -1L;
 
     IdGenerator() {

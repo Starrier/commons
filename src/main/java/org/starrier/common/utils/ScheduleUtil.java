@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2019-09-10
  */
 public class ScheduleUtil {
-    private static HashMap<String, ScheduledFuture> map = new HashMap<>();
+    private static final HashMap<String, ScheduledFuture> map = new HashMap<>();
     private static ScheduledExecutorService pool;
 
     public static void init() {

@@ -58,9 +58,9 @@ public enum ResultCode {
 
     REQUEST_LIMIT(10001, "请求次数受限");
 
-    private Integer code;
+    private final Integer code;
 
-    private String message;
+    private final String message;
 
     ResultCode(Integer code, String message) {
         this.code = code;

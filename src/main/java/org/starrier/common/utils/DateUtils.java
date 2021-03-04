@@ -1,7 +1,6 @@
 package org.starrier.common.utils;
 
 import com.google.common.collect.Lists;
-import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.core.convert.converter.Converter;
@@ -322,23 +321,28 @@ public class DateUtils implements Converter<String, Date> {
         return System.currentTimeMillis() / (1000 * 3600 * 24) * (1000 * 3600 * 24) - TimeZone.getDefault().getRawOffset();
     }
 
+
     @Override
     public Date convert(String source) {
         String value = source.trim();
         if (StringUtils.EMPTY.equals(value)) {
-            return null;
+            return new Date();
         }
-        if (source.matches("^\\d{4}-\\d{1,2}$")) {
-            return parseDate(source, FOR_MARTS.get(0));
-        } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2}$")) {
-            return parseDate(source, FOR_MARTS.get(1));
-        } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}$")) {
-            return parseDate(source, FOR_MARTS.get(2));
-        } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}:\\d{1,2}$")) {
-            return parseDate(source, FOR_MARTS.get(3));
-        } else {
+        try {
+            if (source.matches("^\\d{4}-\\d{1,2}$")) {
+                return parseDate(source, FOR_MARTS.get(0));
+            } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2}$")) {
+                return parseDate(source, FOR_MARTS.get(1));
+            } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}$")) {
+                return parseDate(source, FOR_MARTS.get(2));
+            } else if (source.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}:\\d{1,2}$")) {
+                return parseDate(source, FOR_MARTS.get(3));
+            }
             throw new IllegalArgumentException("Invalid boolean value '" + source + "'");
+        } catch (ParseException e) {
+            return new Date();
         }
+
     }
 
     /**
@@ -348,8 +352,7 @@ public class DateUtils implements Converter<String, Date> {
      * @param format  String 格式
      * @return Date 日期
      */
-    @SneakyThrows(Exception.class)
-    public Date parseDate(String dateStr, String format) {
+    public Date parseDate(String dateStr, String format) throws ParseException {
         DateFormat dateFormat = new SimpleDateFormat(format);
         return dateFormat.parse(dateStr);
     }

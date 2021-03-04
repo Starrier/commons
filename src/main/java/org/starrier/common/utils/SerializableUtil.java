@@ -26,7 +26,7 @@ public class SerializableUtil {
      */
     public static byte[] serializable(Object object) {
 
-        try (ByteArrayOutputStream baos = new ByteArrayOutputStream(); ObjectOutputStream oos = new ObjectOutputStream(baos);) {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream(); ObjectOutputStream oos = new ObjectOutputStream(baos)) {
             oos.writeObject(object);
             return baos.toByteArray();
         } catch (IOException e) {

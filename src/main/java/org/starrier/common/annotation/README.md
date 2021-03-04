@@ -6,10 +6,9 @@
 > @RateLimit
 > ```
 
-
 ### 二. 登录限制(次数)
 
->```java
+> ```java
 >@LoginLimt
 >```
 
