@@ -1,7 +1,5 @@
 package org.starrier.common.token;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.apache.commons.codec.binary.Base64;
 
 import javax.crypto.KeyGenerator;
@@ -22,9 +20,15 @@ import static org.starrier.common.token.TokenConstant.KEY_ALGORTHM;
 public class DESBuilder {
 
 
-    @Getter
-    @Setter
     private Key key;
+
+    public Key getKey() {
+        return key;
+    }
+
+    public void setKey(Key key) {
+        this.key = key;
+    }
 
     /**
      * 构造函数.
@@ -60,7 +64,7 @@ public class DESBuilder {
      */
     public void getKeyToFile(String keyAddress) throws IOException {
         try (FileOutputStream fileOutput = new FileOutputStream(keyAddress);
-             ObjectOutputStream objectOutput = new ObjectOutputStream(fileOutput);) {
+             ObjectOutputStream objectOutput = new ObjectOutputStream(fileOutput)) {
             objectOutput.writeObject(this.key);
         }
     }
