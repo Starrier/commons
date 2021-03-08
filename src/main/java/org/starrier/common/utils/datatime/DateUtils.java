@@ -15,8 +15,8 @@ public class DateUtils {
      *
      * @param date specific date
      *             <blockquote><pre>
-     *                                     getLastHourTime(new Date(),0);
-     *                                       </pre></blockquote>
+     *                                                                                     getLastHourTime(new Date(),0);
+     *                                                                                       </pre></blockquote>
      * @return datetime String
      * <blockquote>
      * 2020-02-25 14:00:00
@@ -35,8 +35,8 @@ public class DateUtils {
     /**
      * 获取当前时间的整点小时时间
      *
-     * @param date
-     * @return
+     * @param date 日期时间
+     * @return 时间字符串
      */
     public static String getCurrHourTime(Date date) {
         Calendar ca = Calendar.getInstance();
@@ -69,19 +69,20 @@ public class DateUtils {
 
     /**
      * Date String format convert to another String format
-     * @param original
-     * @param originalFormat
-     * @param targetFormate
-     * @return
-     * @throws ParseException
+     *
+     * @param original       原始格式的 时间字符串
+     * @param originalFormat 原始时间格式
+     * @param targetFormat   目标时间格式
+     * @return 返回格式化后的瞬间格式
+     * @throws ParseException 解析过程中可能出现的异常信息
      */
-    public static String stringDateConvert(String original,String originalFormat,String targetFormate)
-         throws ParseException {
-            SimpleDateFormat formatter = new SimpleDateFormat(originalFormat);
-            formatter.setLenient(false);
-            Date newDate= formatter.parse(original);
-            formatter = new SimpleDateFormat(targetFormate);
-            return formatter.format(newDate);
+    public static String stringDateConvert(String original, String originalFormat, String targetFormat)
+            throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat(originalFormat);
+        formatter.setLenient(false);
+        Date newDate = formatter.parse(original);
+        formatter = new SimpleDateFormat(targetFormat);
+        return formatter.format(newDate);
     }
 
 
