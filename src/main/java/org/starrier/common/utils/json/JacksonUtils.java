@@ -8,6 +8,7 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import parquet.org.slf4j.Logger;
 import parquet.org.slf4j.LoggerFactory;
+import reactor.core.publisher.Mono;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -22,12 +23,22 @@ public class JacksonUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JacksonUtils.class);
 
-    // 加载速度太慢了，放在静态代码块中
-    // private static final ObjectMapper mapper = new ObjectMapper();
+    /**
+     *   加载速度太慢了，放在静态代码块中
+     *
+     *  <blockquote><pre>
+     *        private static final ObjectMapper mapper = new ObjectMapper();
+     * </pre></blockquote>
+     */
     private static final ObjectMapper mapper;
 
     /**
      * 设置一些通用的属性
+     *
+     *  <blockquote><pre>
+     *
+     * </pre></blockquote>
+     * <p>
      */
     static {
         mapper = new ObjectMapper();
@@ -82,6 +93,10 @@ public class JacksonUtils {
         return obj != null ? toJavaObject(toJSONString(obj), tClass, () -> null) : null;
     }
 
+    public static <T> Mono<T> toReactiveJavaObject(Object obj, Class<T> tClass) {
+        return obj != null ? toReactiveJavaObject(toJSONString(obj), tClass, () -> null) : null;
+    }
+
     public static <T> T toJavaObject(String value, Class<T> tClass, Supplier<T> defaultSupplier) {
         try {
             if (StringUtils.isBlank(value)) {
@@ -92,6 +107,18 @@ public class JacksonUtils {
             LOGGER.error(String.format("toJavaObject exception: \n %s\n %s", value, tClass), e);
         }
         return defaultSupplier.get();
+    }
+
+    public static <T> Mono<T> toReactiveJavaObject(String value, Class<T> tClass, Supplier<T> defaultSupplier) {
+        try {
+            if (StringUtils.isBlank(value)) {
+                return Mono.just(defaultSupplier.get());
+            }
+            return  Mono.just(mapper.readValue(value, tClass));
+        } catch (Throwable e) {
+            LOGGER.error(String.format("toJavaObject exception: \n %s\n %s", value, tClass), e);
+        }
+        return  Mono.just(defaultSupplier.get());
     }
 
     public static <T> List<T> toJavaObjectList(String value, Class<T> tClass) {
