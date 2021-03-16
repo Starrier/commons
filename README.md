@@ -6,7 +6,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/67ded5e207bab2133673/maintainability)](https://codeclimate.com/github/Starrier/commons/maintainability)
 > 通用工具类
 
-**Tips**: 
+**Tips**:
 
 1. Before you pull request please try the command
 

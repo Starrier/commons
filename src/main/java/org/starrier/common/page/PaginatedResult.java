@@ -26,6 +26,12 @@ public class PaginatedResult implements Serializable {
      */
     private Object data;
 
+    public PaginatedResult(int currentPage, int totalPage, Object data) {
+        this.currentPage = currentPage;
+        this.totalPage = totalPage;
+        this.data = data;
+    }
+
     public int getCurrentPage() {
         return currentPage;
     }
@@ -47,12 +53,6 @@ public class PaginatedResult implements Serializable {
     }
 
     public void setData(Object data) {
-        this.data = data;
-    }
-
-    public PaginatedResult(int currentPage, int totalPage, Object data) {
-        this.currentPage = currentPage;
-        this.totalPage = totalPage;
         this.data = data;
     }
 

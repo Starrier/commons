@@ -26,16 +26,16 @@ public class SensitiveWordUtil {
      */
     public static Map sensitiveWordMap;
 
+    private SensitiveWordUtil() {
+        init(null);
+    }
+
     public static Map getSensitiveWordMap() {
         return sensitiveWordMap;
     }
 
     public static void setSensitiveWordMap(Map sensitiveWordMap) {
         SensitiveWordUtil.sensitiveWordMap = sensitiveWordMap;
-    }
-
-    private SensitiveWordUtil() {
-        init(null);
     }
 
     /**

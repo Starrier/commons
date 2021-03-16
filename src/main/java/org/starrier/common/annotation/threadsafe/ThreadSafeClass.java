@@ -1,6 +1,7 @@
 package org.starrier.common.annotation.threadsafe;
 
 import net.jcip.annotations.ThreadSafe;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

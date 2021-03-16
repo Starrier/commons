@@ -24,9 +24,9 @@ public class JacksonUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(JacksonUtils.class);
 
     /**
-     *   加载速度太慢了，放在静态代码块中
+     * 加载速度太慢了，放在静态代码块中
      *
-     *  <blockquote><pre>
+     * <blockquote><pre>
      *        private static final ObjectMapper mapper = new ObjectMapper();
      * </pre></blockquote>
      */
@@ -114,11 +114,11 @@ public class JacksonUtils {
             if (StringUtils.isBlank(value)) {
                 return Mono.just(defaultSupplier.get());
             }
-            return  Mono.just(mapper.readValue(value, tClass));
+            return Mono.just(mapper.readValue(value, tClass));
         } catch (Throwable e) {
             LOGGER.error(String.format("toJavaObject exception: \n %s\n %s", value, tClass), e);
         }
-        return  Mono.just(defaultSupplier.get());
+        return Mono.just(defaultSupplier.get());
     }
 
     public static <T> List<T> toJavaObjectList(String value, Class<T> tClass) {

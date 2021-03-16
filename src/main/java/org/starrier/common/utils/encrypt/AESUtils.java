@@ -3,6 +3,7 @@ package org.starrier.common.utils.encrypt;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
@@ -15,15 +16,17 @@ import java.util.Base64;
  */
 public class AESUtils {
 
-    private static final String SEED = "custom.ase.key";
+    private static final String INIT_VECTOR = "encryptionIntVec";
+    private static final String SEED = "coupon.restful";
     private static final String ALGORITHM = "AES";
+    private static final String ALGORITHM_HIGH = "AES/CBC/PKCS5PADDING";
 
     /**
      * 加密
      *
-     * @param content
-     * @return
-     * @throws Exception
+     * @param content Data content to be encrypted
+     * @return encrypt data
+     * @throws Exception not allow bank
      */
     public static byte[] encrypt(String content) throws Exception {
 
@@ -38,9 +41,9 @@ public class AESUtils {
     /**
      * 解密
      *
-     * @param encrypt
-     * @return
-     * @throws Exception
+     * @param encrypt encrypted data to be decrypted
+     * @return decrypt data
+     * @throws Exception exception
      */
     public static byte[] decrypt(byte[] encrypt) throws Exception {
 
@@ -52,6 +55,7 @@ public class AESUtils {
 
     /**
      * 获得一个 密钥长度为 256 位的 AES 密钥，
+     * 如果环境支持，最好选择使用  256 位加密，更加安全
      *
      * @return 返回经 BASE64 处理之后的密钥字符串
      */
@@ -62,7 +66,7 @@ public class AESUtils {
 
         KeyGenerator keyGen = KeyGenerator.getInstance(ALGORITHM);
         // 这里可以是 128、192、256、越大越安全
-        keyGen.init(256, secureRandom);
+        keyGen.init(128, secureRandom);
 
         SecretKey secretKey = keyGen.generateKey();
         return Base64.getEncoder().encodeToString(secretKey.getEncoded());
@@ -91,8 +95,9 @@ public class AESUtils {
      */
     public static byte[] encryptAES(byte[] content, SecretKey secretKey) throws Exception {
 
-        Cipher cipher = Cipher.getInstance(ALGORITHM);
-        cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+        IvParameterSpec iv = new IvParameterSpec(INIT_VECTOR.getBytes(StandardCharsets.UTF_8));
+        Cipher cipher = Cipher.getInstance(ALGORITHM_HIGH);
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey, iv);
         return cipher.doFinal(content);
 
     }
@@ -106,8 +111,9 @@ public class AESUtils {
      */
     public static byte[] decryptAES(byte[] content, SecretKey secretKey) throws Exception {
 
-        Cipher cipher = Cipher.getInstance(ALGORITHM);
-        cipher.init(Cipher.DECRYPT_MODE, secretKey);
+        IvParameterSpec iv = new IvParameterSpec(INIT_VECTOR.getBytes(StandardCharsets.UTF_8));
+        Cipher cipher = Cipher.getInstance(ALGORITHM_HIGH);
+        cipher.init(Cipher.DECRYPT_MODE, secretKey, iv);
         return cipher.doFinal(content);
 
     }
