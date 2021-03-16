@@ -22,14 +22,6 @@ public class DESBuilder {
 
     private Key key;
 
-    public Key getKey() {
-        return key;
-    }
-
-    public void setKey(Key key) {
-        this.key = key;
-    }
-
     /**
      * 构造函数.
      *
@@ -37,6 +29,14 @@ public class DESBuilder {
      */
     public DESBuilder(String str) {
         generatorRandomKey(str);
+    }
+
+    public Key getKey() {
+        return key;
+    }
+
+    public void setKey(Key key) {
+        this.key = key;
     }
 
     /**

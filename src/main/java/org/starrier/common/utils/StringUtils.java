@@ -11,7 +11,7 @@ public class StringUtils {
         if (strLen == 0) {
             return true;
         } else {
-            for(int i = 0; i < strLen; ++i) {
+            for (int i = 0; i < strLen; ++i) {
                 if (!Character.isWhitespace(cs.charAt(i))) {
                     return false;
                 }

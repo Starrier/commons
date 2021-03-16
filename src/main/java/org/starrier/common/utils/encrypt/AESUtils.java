@@ -19,7 +19,7 @@ public class AESUtils {
     private static final String INIT_VECTOR = "encryptionIntVec";
     private static final String SEED = "coupon.restful";
     private static final String ALGORITHM = "AES";
-    private static final String ALGORITHM_HIGH ="AES/CBC/PKCS5PADDING";
+    private static final String ALGORITHM_HIGH = "AES/CBC/PKCS5PADDING";
 
     /**
      * 加密
@@ -97,7 +97,7 @@ public class AESUtils {
 
         IvParameterSpec iv = new IvParameterSpec(INIT_VECTOR.getBytes(StandardCharsets.UTF_8));
         Cipher cipher = Cipher.getInstance(ALGORITHM_HIGH);
-        cipher.init(Cipher.ENCRYPT_MODE, secretKey,iv);
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey, iv);
         return cipher.doFinal(content);
 
     }
@@ -113,7 +113,7 @@ public class AESUtils {
 
         IvParameterSpec iv = new IvParameterSpec(INIT_VECTOR.getBytes(StandardCharsets.UTF_8));
         Cipher cipher = Cipher.getInstance(ALGORITHM_HIGH);
-        cipher.init(Cipher.DECRYPT_MODE, secretKey,iv);
+        cipher.init(Cipher.DECRYPT_MODE, secretKey, iv);
         return cipher.doFinal(content);
 
     }

@@ -1,15 +1,18 @@
 package org.starrier.common.picture;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.awt.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author starrier
  * @date 2021/1/7
  */
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(classes = WaterMarkUtils.class)
 class WaterMarkUtilsTest {
 
     @Test
@@ -17,7 +20,7 @@ class WaterMarkUtilsTest {
 
         String waterMarkImagePath = "";
         String targetImagePath = "";
-        WaterMarkUtils. pressImage(waterMarkImagePath, targetImagePath, 880, 560);
+        WaterMarkUtils.pressImage(waterMarkImagePath, targetImagePath, 880, 560);
 
     }
 

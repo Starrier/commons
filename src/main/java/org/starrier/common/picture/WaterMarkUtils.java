@@ -48,7 +48,7 @@ public class WaterMarkUtils {
 
             String formatName = pressTargetImage.substring(pressTargetImage.lastIndexOf(".") + 1);
             FileOutputStream fileOutputStream = new FileOutputStream(pressTargetImage);
-            ImageIO.write(bufferedImage, /*"GIF"*/ formatName /* format desired */ , new File(pressTargetImage) /* target */ );
+            ImageIO.write(bufferedImage, /*"GIF"*/ formatName /* format desired */, new File(pressTargetImage) /* target */);
             fileOutputStream.close();
 
         } catch (IOException e) {
@@ -77,7 +77,7 @@ public class WaterMarkUtils {
 
             String formatName = targetImage.substring(targetImage.lastIndexOf(".") + 1);
             FileOutputStream fileOutputStream = new FileOutputStream(targetImage);
-            ImageIO.write(bufferedImage, /*"GIF"*/ formatName /* format desired */ , new File(pressText) /* target */ );
+            ImageIO.write(bufferedImage, /*"GIF"*/ formatName /* format desired */, new File(pressText) /* target */);
             fileOutputStream.close();
         } catch (Exception e) {
 
